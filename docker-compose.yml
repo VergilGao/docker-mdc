@@ -1,0 +1,13 @@
+version: '3'
+services:
+  avdc:
+    image: vergilgao/avdc
+    container_name: avdc
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Shanghai
+    volumes:
+      - /path/to/data:/jav/data
+      - /path/to/config.ini:/jav/myconfig.ini
+    command: ["-c","myconfig.ini"]
