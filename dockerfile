@@ -1,8 +1,7 @@
 FROM python:3.8-slim
 
-ARG BUILD_DATE
-ARG AVDC_RELEASE
-LABEL build_version="avdc_version:- ${AVDC_RELEASE} build-date:- ${BUILD_DATE}"
+ARG AVDC_VERSION
+LABEL build_version="avdc_version:- ${AVDC_VERSION}"
 LABEL maintainer="VergilGao"
 
 RUN \
@@ -10,8 +9,8 @@ RUN \
     apt-get install -y wget ca-certificates && \
     mkdir build && \
     cd build && \
-    wget -O - https://github.com/yoshiko2/AV_Data_Capture/archive/${AVDC_RELEASE}.tar.gz | tar xz && \
-    mv AV_Data_Capture-${AVDC_RELEASE} /jav && \
+    wget -O - https://github.com/yoshiko2/AV_Data_Capture/archive/${AVDC_VERSION}.tar.gz | tar xz && \
+    mv AV_Data_Capture-${AVDC_VERSION} /jav && \
     cd .. && \
     rm -rf build && \
     cd /jav && \

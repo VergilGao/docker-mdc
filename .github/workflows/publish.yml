@@ -1,0 +1,69 @@
+name: publish
+
+on: 
+  push:
+    branches:
+      - master
+      - releases/v*
+    paths-ignore:
+      - "**.md"
+  pull_request:
+    paths-ignore:
+      - "**.md"
+
+env:
+    AVDC_VERSION: 3.9.1
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+        - name: Checkout
+          uses: actions/checkout@v2
+        
+        - name: Create Test User
+          run: |
+            sudo groupadd -g 1024 avdc
+            sudo useradd -u 1024 avdc -g avdc
+            sudo chown -R 1024:1024 Test
+
+        - name: Build the Docker image
+          run: |
+            docker build -t xiaoyu/avdc:${{ env.AVDC_VERSION }} --build-arg AVDC_VERSION=${{ env.AVDC_VERSION }} . 
+
+        - name: Run the Test
+          if: success()
+          run: |
+            echo 'y' | docker run -i -u 1024:1024 -v ${PWD}/Test:/jav/data xiaoyu/avdc:${{ env.AVDC_VERSION }}
+            cd Test/JAV_output/御坂りあ/MIFD-046
+            ls -l
+            cat MIFD-046.mp4
+
+        - name: Set up QEMU
+          uses: docker/setup-qemu-action@v1
+          if: success()
+        
+        - name: Set up Docker Buildx
+          uses: docker/setup-buildx-action@v1
+          if: success()
+        
+        - name: Login to DockerHub
+          uses: docker/login-action@v1
+          if: success()
+          with:
+            username: ${{ secrets.DOCKERHUB_USERNAME }}
+            password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+        - name: Build and push
+          uses: docker/build-push-action@v2
+          if: success()
+          with:
+            context: .
+            file: dockerfile
+            platforms: linux/amd64
+            push: true
+            build-args: |
+              AVDC_VERSION=${{ env.AVDC_VERSION }}
+            tags: |
+              vergilgao/avdc:latest
+              vergilgao/avdc:${{ env.AVDC_VERSION }}
