@@ -34,7 +34,7 @@ jobs:
         - name: Run the Test
           if: success()
           run: |
-            echo 'y' | docker run -i -u 1024:1024 -v ${PWD}/Test:/jav/data xiaoyu/avdc:${{ env.AVDC_VERSION }}
+            docker run -u 1024:1024 -v ${PWD}/Test:/jav/data xiaoyu/avdc:${{ env.AVDC_VERSION }}
             cd Test/JAV_output/御坂りあ/MIFD-046
             ls -l
             cat MIFD-046.mp4
