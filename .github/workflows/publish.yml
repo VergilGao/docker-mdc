@@ -7,9 +7,13 @@ on:
       - releases/v*
     paths-ignore:
       - "**.md"
+      - "sync-readme.yml"
+      - "LICENSE"
   pull_request:
     paths-ignore:
       - "**.md"
+      - "sync-readme.yml"
+      - "LICENSE"
 
 env:
     AVDC_VERSION: 3.9.1

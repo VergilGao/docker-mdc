@@ -1,0 +1,24 @@
+name: sync readme
+
+on: 
+  push:
+    branches:
+      - master
+    paths:
+      - "README.md"
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+        - name: Checkout
+          uses: actions/checkout@v2
+
+        - name: Sync
+          uses: meeDamian/sync-readme@v1.0.6
+          with:
+            user: ${{ secrets.DOCKERHUB_USERNAME }}
+            pass: ${{ secrets.DOCKERHUB_TOKEN }}
+            slug: vergilgao/avdc
+            readme: README.md
+            description: true
