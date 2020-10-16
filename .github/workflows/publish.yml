@@ -7,12 +7,12 @@ on:
       - releases/v*
     paths-ignore:
       - "**.md"
-      - ".github\workflows\sync-readme.yml"
+      - ".github/workflows/sync-readme.yml"
       - "LICENSE"
   pull_request:
     paths-ignore:
       - "**.md"
-      - ".github\workflows\sync-readme.yml"
+      - ".github/workflows/sync-readme.yml"
       - "LICENSE"
 
 env:
