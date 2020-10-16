@@ -16,7 +16,7 @@
 
 本镜像从仓库[AV_Data_Capture](https://github.com/yoshiko2/AV_Data_Capture)构建，版本号和源仓库的release版本号统一，初始发布版本为`3.9.1`
 
-群晖用户可以先参考[这个 issue](https://github.com/VergilGao/docker-avdc/issues/2)使用，有什么问题尽量在此提出。
+群晖用户可以先参考[这个 issue](https://github.com/VergilGao/docker-avdc/issues/2)使用，有什么问题尽量在此issue中提出。
 
 * **注意，因为docker文件系统的特殊性，请仔细阅读以下操作指南后再行使用。**
 * **镜像仍处于测试阶段，使用方法可能会出现较大变化。**
