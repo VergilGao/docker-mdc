@@ -59,7 +59,7 @@ jobs:
           if: success()
           with:
             context: .
-            file: dockerfile
+            file: Dockerfile
             platforms: linux/amd64
             push: true
             build-args: |
