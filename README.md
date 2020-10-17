@@ -101,3 +101,8 @@ folders=failed,JAV_output
 switch=0
 ```
 将此文件修改保存为`myconfig.ini`或者其他你喜欢的名字。
+
+## TODO List
+
+- [ ] 使用 s6-overlay 来增强镜像的配置
+- [ ] 监控文件系统变动让`avdc`可以在新增视频文件后自动运行
