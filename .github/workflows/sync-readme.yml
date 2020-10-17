@@ -15,9 +15,9 @@ jobs:
           uses: actions/checkout@v2
 
         - name: Sync
-          uses: meeDamian/sync-readme@v1.0.6
+          uses: ms-jpq/sync-dockerhub-readme@v1
           with:
-            user: ${{ secrets.DOCKERHUB_USERNAME }}
-            pass: ${{ secrets.DOCKERHUB_TOKEN }}
-            slug: vergilgao/avdc
+            username: ${{ secrets.DOCKERHUB_USERNAME }}
+            password: ${{ secrets.DOCKERHUB_TOKEN }}
+            repository: vergilgao/avdc
             readme: README.md
