@@ -16,8 +16,6 @@
 
 本镜像从仓库[AV_Data_Capture](https://github.com/yoshiko2/AV_Data_Capture)构建，版本号和源仓库的release版本号统一，初始发布版本为`3.9.1`
 
-群晖用户可以先参考[这个 issue](https://github.com/VergilGao/docker-avdc/issues/2)使用，有什么问题尽量在此issue中提出。
-
 * **注意，因为docker文件系统的特殊性，请仔细阅读以下操作指南后再行使用。**
 * **镜像仍处于测试阶段，使用方法可能会出现较大变化。**
 * **镜像作者[VergilGao](https://github.com/VergilGao)对使用此镜像导致的文件丢失、损坏均不负责。**
@@ -32,7 +30,7 @@
 docker pull vergilgao/avdc
 mkdir test
 touch test/MIFD-046.mp4
-docker run --name avdc_test -it -v ${PWD}/test:/jav/data vergilgao/avdc 
+docker run --name avdc_test -it -v ${PWD}/test:/app/data vergilgao/avdc 
 ```
 然后你会看到如下输出：
 ```sh
@@ -56,54 +54,41 @@ docker rm avdc_test
 
 ## 自定义配置
 
-首先，您要知晓`avdc`组织数据的方式。
-`avdc`在组织数据的过程中，首先将已经刮削完成的视频文件按照`config.ini`中预设的规则硬链接到指定目录，然后再删除原文件，此后，再将原文件目录中余下的视频文件通过`mv`命令（或等同的方式）移动到`failed`目录（默认规则）。如果您对于linux系统和docker有所了解，就会知道此种数据组织方式具有潜在的问题。
-所以，**请绝对不要在原仓库的`config.ini`文件作为基础配置。
-我修改了一个更适合本镜像的配置文件，请仔细阅读注释后使用：
-```ini
-[common]
-main_mode=1
-; WARNING!!!
-; 强烈不建议修改输出文件夹配置！
-; 输出文件夹必须以data/开头，否则你的数据将会被mv到docker镜像内，如果误操作导致文件消失，请使用
-; docker cp 你的docker镜像ID:/jav /你要将数据转移的目录 
-; 然后在复制出来的文件里慢慢找吧！
-failed_output_folder=data/failed
-success_output_folder=data/JAV_output
-soft_link=0
-failed_move=1
-auto_exit=1
-transalte_to_sc=1
+与源程序不同，本镜像使用运行时的环境变量来完成自定义配置。
 
-[proxy]
-;proxytype: http or socks5 or socks5h
-type=socks5
-proxy=
-timeout=5
-retry=3
-
-[Name_Rule]
-location_rule=actor+'/'+number
-naming_rule=number+'-'+title
-max_title_len= 50
-
-[update]
-update_check=0
-
-[priority]
-website=javbus,javdb,fanza,xcity,mgstage,fc2,avsox,jav321,javlib,dlsite
-
-[escape]
-literals=\()/
-folders=failed,JAV_output
-
-[debug_mode]
-switch=0
+```sh
+docker run -it \
+	--name avdc_test \
+	-v ${PWD}/test:/app/data \
+	-e PROXY_TYPE="socks5" \
+	-e PROXY_URI="127.0.0.1:1080" \ 
+	vergilgao/avdc
 ```
-将此文件修改保存为`myconfig.ini`或者其他你喜欢的名字。
+
+注意，尽量将环境变量值包含在`""`内，同时请勿再在环境变量中使用`""`。
+
+环境变量字段和原程序`config.ini`文件的字段对应关系如下。
+
+| 字段名           | 原 ini 文件字段       | 值语义 | 预设值 |
+| ---------------- | --------------------- | ------ | ------ |
+| FAILED_OUTPUT    | failed_output_folder  |        |        |
+| SUCCESS_OUTPUT   | success_output_folder |        |        |
+| SOFT_LINK        | soft_link             |        |        |
+| FAILED_MOVE      | failed_move           |        |        |
+| TRANSLATE        | transalte_to_sc       |        |        |
+| PROXY_TYPE       | type                  |        |        |
+| PROXY_URI        | proxy                 |        |        |
+| TIMEOUT          | timeout               |        |        |
+| RETRY            | retry                 |        |        |
+| LOCATION_RULE    | location_rule         |        |        |
+| NAMING_RULE      | naming_rule           |        |        |
+| MAX_TITLE_LEN    | max_title_len         |        |        |
+| PRIORITY_WEBSITE | website               |        |        |
+| ESCAPE_FOLDERS   | folders               |        |        |
+| DEBUG            | switch                |        |        |
 
 ## TODO List
 
-- [ ] 使用 s6-overlay 来增强镜像的配置
-- [ ] 将`config.ini`中的配置项改为环境变量
+- [x] 将`config.ini`中的配置项改为环境变量
+- [ ] 完善环境变量
 - [ ] 监控文件系统变动让`avdc`可以在新增视频文件后自动运行
