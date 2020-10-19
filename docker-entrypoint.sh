@@ -54,14 +54,4 @@ folders=${ESCAPE_FOLDERS}
 switch=${DEBUG}
 EOF
 
-mkdir -p \
-    /app/data 
-
-chown abc:abc /app/data
-
-chown abc:abc /app/AV_Data_Capture
-chmod +x /app/AV_Data_Capture
-
-cat docker.ini
-
-exec ./AV_Data_Capture -c docker.ini
+exec python AV_Data_Capture.py -c docker.ini

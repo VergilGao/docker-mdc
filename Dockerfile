@@ -1,8 +1,9 @@
 FROM python:3.8-slim
-
-ARG AVDC_VERSION
-LABEL build_version="avdc_version:- ${AVDC_VERSION}"
 LABEL maintainer="VergilGao"
+
+# 软件包版本号
+ARG GLIBC_VERSION
+ARG AVDC_VERSION
 
 RUN \
     apt-get update && \
@@ -22,6 +23,11 @@ VOLUME /app/data
 WORKDIR /app
 
 COPY docker-entrypoint.sh docker-entrypoint.sh
+
+# 镜像版本号
+ARG BUILD_DATE
+ARG VERSION
+LABEL build_version="catfight360.com version:- ${VERSION} build-date:- ${BUILD_DATE}"
 
 RUN chmod +x docker-entrypoint.sh
 
