@@ -16,7 +16,9 @@ on:
       - "LICENSE"
 
 env:
+    GLIBC_VERSION: 2.32-r0
     AVDC_VERSION: 3.9.1
+    VERSION: 3.9.1-beta
 
 jobs:
     build:
@@ -33,15 +35,22 @@ jobs:
 
         - name: Build the Docker image
           run: |
-            docker build -t xiaoyu/avdc:${{ env.AVDC_VERSION }} --build-arg AVDC_VERSION=${{ env.AVDC_VERSION }} . 
+            docker build -t xiaoyu/avdc:${{ env.VERSION }} \
+              --build-arg GLIBC_VERSION=${{ env.GLIBC_VERSION }} \
+              --build-arg AVDC_VERSION=${{ env.AVDC_VERSION }} \
+              --build-arg BUILD_DATE=$(date +"%Y-%m-%d") \
+              --build-arg VERSION=${{ env.VERSION }} \
+              .  
 
         - name: Run the Test
           if: success()
           run: |
-            docker run -u 1024:1024 -v ${PWD}/Test:/jav/data xiaoyu/avdc:${{ env.AVDC_VERSION }}
-            cd Test/JAV_output/御坂りあ/MIFD-046
-            ls -l
-            cat MIFD-046.mp4
+            docker run \
+              -e SUCCESS_OUTPUT="JAV_output" \
+              -e DEBUG=1 \
+              -v ${PWD}/Test:/app/data \
+              xiaoyu/avdc:${{ env.VERSION }}
+            find . -name MIFD-046.mp4
 
         - name: Set up QEMU
           uses: docker/setup-qemu-action@v1
@@ -67,7 +76,9 @@ jobs:
             platforms: linux/amd64
             push: true
             build-args: |
+              GLIBC_VERSION=${{ env.GLIBC_VERSION }}
               AVDC_VERSION=${{ env.AVDC_VERSION }}
+              BUILD_DATE=$(date +"%Y-%m-%d")
+              VERSION=${{ env.VERSION }}
             tags: |
-              vergilgao/avdc:latest
-              vergilgao/avdc:${{ env.AVDC_VERSION }}
+              vergilgao/avdc:${{ env.VERSION }}

@@ -10,17 +10,19 @@ RUN \
     mkdir build && \
     cd build && \
     wget -O - https://github.com/yoshiko2/AV_Data_Capture/archive/${AVDC_VERSION}.tar.gz | tar xz && \
-    mv AV_Data_Capture-${AVDC_VERSION} /jav && \
+    mv AV_Data_Capture-${AVDC_VERSION} /app && \
     cd .. && \
     rm -rf build && \
-    cd /jav && \
+    cd /app && \
     rm config.ini && \
     pip install --no-cache-dir -r requirements.txt && \
     apt-get purge -y wget
 
-VOLUME /jav/data
-WORKDIR /jav
+VOLUME /app/data
+WORKDIR /app
 
-COPY config.ini config.ini
+COPY docker-entrypoint.sh docker-entrypoint.sh
 
-ENTRYPOINT ["python","AV_Data_Capture.py"]
+RUN chmod +x docker-entrypoint.sh
+
+ENTRYPOINT ["./docker-entrypoint.sh"]
