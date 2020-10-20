@@ -30,7 +30,7 @@
 docker pull vergilgao/avdc:3.9.1-beta
 mkdir test
 touch test/MIFD-046.mp4
-docker run --name avdc_test -it -v ${PWD}/test:/app/data vergilgao/avdc 
+docker run --name avdc_test -it -v ${PWD}/test:/app/data vergilgao/avdc:3.9.1-beta
 ```
 然后你会看到如下输出：
 ```sh
