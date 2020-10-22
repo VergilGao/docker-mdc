@@ -46,7 +46,7 @@ jobs:
           if: success()
           run: |
             docker run \
-              -e SUCCESS_OUTPUT="JAV_output" \
+              -e SUCCESS_OUTPUT="test_output" \
               -e DEBUG=1 \
               -v ${PWD}/Test:/app/data \
               xiaoyu/avdc:${{ env.VERSION }}
