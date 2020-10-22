@@ -18,7 +18,7 @@ ESCAPE_FOLDERS=${ESCAPE_FOLDERS:-"${SUCCESS_OUTPUT},${FAILED_OUTPUT}"}
 DEBUG=${DEBUG:-"0"}
 
 cd /app
-cat>docker.ini<<EOF
+cat>config.ini<<EOF
 [common]
 main_mode=1
 failed_output_folder=data/${FAILED_OUTPUT}
@@ -54,4 +54,4 @@ folders=${ESCAPE_FOLDERS}
 switch=${DEBUG}
 EOF
 
-exec python AV_Data_Capture.py -c docker.ini
+exec python AV_Data_Capture.py
