@@ -2,7 +2,6 @@ FROM python:3.8-slim
 LABEL maintainer="VergilGao"
 
 # 软件包版本号
-ARG GLIBC_VERSION
 ARG AVDC_VERSION
 
 RUN \
