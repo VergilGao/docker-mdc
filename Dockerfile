@@ -14,7 +14,8 @@ RUN \
     cd .. && \
     rm -rf build && \
     cd /app && \
-    rm config.ini && \
+    sed -i '/pyinstaller/d' requirements.txt && \
+    cat requirements.txt && \
     pip install --no-cache-dir -r requirements.txt && \
     apt-get purge -y wget
 
