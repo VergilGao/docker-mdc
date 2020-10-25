@@ -27,15 +27,15 @@
 首先你可以测试一下程序是否可用。
 
 ```sh
-docker pull vergilgao/avdc:3.9.1-beta
+docker pull vergilgao/avdc:3.9.2
 mkdir test
 touch test/MIFD-046.mp4
-docker run --name avdc_test -it -v ${PWD}/test:/app/data vergilgao/avdc:3.9.1-beta
+docker run --name avdc_test -it -v ${PWD}/test:/app/data vergilgao/avdc:3.9.2
 ```
 然后你会看到如下输出：
 ```sh
 [*]================== AV Data Capture ===================
-[*]                    Version 3.9.1
+[*]                    Version 3.9.2
 [*]======================================================
 [+]Find 1 movies
 [!] - 100.% [1/1] -
@@ -62,7 +62,7 @@ docker run -it \
 	-v ${PWD}/test:/app/data \
 	-e PROXY_TYPE="socks5" \
 	-e PROXY_URI="127.0.0.1:1080" \ 
-	vergilgao/avdc:3.9.1-beta
+	vergilgao/avdc:3.9.2
 ```
 
 注意，尽量将环境变量值包含在`""`内，同时请勿再在环境变量中使用`""`。
