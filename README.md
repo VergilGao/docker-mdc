@@ -30,7 +30,7 @@
 docker pull vergilgao/avdc:3.9.2
 mkdir test
 touch test/MIFD-046.mp4
-docker run --name avdc_test -it -v ${PWD}/test:/app/data vergilgao/avdc:3.9.2
+docker run --rm --name avdc_test -it -v ${PWD}/test:/app/data vergilgao/avdc:3.9.2
 ```
 然后你会看到如下输出：
 ```sh
@@ -49,7 +49,6 @@ docker run --name avdc_test -it -v ${PWD}/test:/app/data vergilgao/avdc:3.9.2
 确认程序没有问题后把测试数据删掉就好了。顺便也删掉已经没有用了的测试容器:
 ```sh
 sudo rm -rf test
-docker rm avdc_test
 ```
 
 ## 自定义配置
