@@ -46,7 +46,7 @@ docker run --rm --name avdc_test -it -v ${PWD}/test:/app/data vergilgao/avdc:3.9
 [*]======================================================
 [+]All finished!!!
 ```
-确认程序没有问题后把测试数据删掉就好了。顺便也删掉已经没有用了的测试容器:
+确认程序没有问题后把测试数据删掉就好了。
 ```sh
 sudo rm -rf test
 ```
