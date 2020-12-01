@@ -15,6 +15,7 @@ NAMING_RULE=${NAMING_RULE:-"number+'-'+title"}
 MAX_TITLE_LEN=${MAX_TITLE_LEN:-"50"}
 PRIORITY_WEBSITE=${PRIORITY_WEBSITE:-"javbus,javdb,fanza,xcity,mgstage,fc2,avsox,jav321,javlib,dlsite"}
 ESCAPE_FOLDERS=${ESCAPE_FOLDERS:-"${SUCCESS_OUTPUT},${FAILED_OUTPUT}"}
+ESCAPE_LITERALS=${ESCAPE_LITERALS:-"\()/"}
 DEBUG=${DEBUG:-"0"}
 
 cd /app
@@ -47,7 +48,7 @@ update_check=0
 website=${PRIORITY_WEBSITE}
 
 [escape]
-literals=\()/
+literals=${ESCAPE_LITERALS}
 folders=${ESCAPE_FOLDERS}
 
 [debug_mode]

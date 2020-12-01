@@ -19,7 +19,7 @@
 * **注意，因为docker文件系统的特殊性，请仔细阅读以下操作指南后再行使用。**
 * **镜像仍处于测试阶段，使用方法可能会出现较大变化。**
 * **镜像作者[VergilGao](https://github.com/VergilGao)对使用此镜像导致的文件丢失、损坏均不负责。**
-* **源作者[yoshiko2](https://github.com/yoshiko2)保留最终决定权和最终解释权**  
+* **源作者[yoshiko2](https://github.com/yoshiko2)保留最终决定权和最终解释权**
 * **其他注意事项敬请参阅[源仓库的README](https://github.com/yoshiko2/AV_Data_Capture/blob/master/README.md)**
 
 ## 测试
@@ -60,7 +60,7 @@ docker run -it \
 	--name avdc_test \
 	-v ${PWD}/test:/app/data \
 	-e PROXY_TYPE="socks5" \
-	-e PROXY_URI="127.0.0.1:1080" \ 
+	-e PROXY_URI="127.0.0.1:1080" \
 	vergilgao/avdc:3.9.2
 ```
 
@@ -84,6 +84,7 @@ docker run -it \
 | MAX_TITLE_LEN    | max_title_len         |        |        |
 | PRIORITY_WEBSITE | website               |        |        |
 | ESCAPE_FOLDERS   | folders               |        |        |
+| ESCAPE_LITERALS  | literals              |        |        |
 | DEBUG            | switch                |        |        |
 
 ## TODO List
