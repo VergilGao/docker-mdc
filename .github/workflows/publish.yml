@@ -1,23 +1,9 @@
 name: publish
 
 on: 
-  push:
-    branches:
-      - master
-      - releases/v*
-    paths-ignore:
-      - "**.md"
-      - ".github/workflows/sync-readme.yml"
-      - "LICENSE"
-  pull_request:
-    paths-ignore:
-      - "**.md"
-      - ".github/workflows/sync-readme.yml"
-      - "LICENSE"
-
-env:
-    AVDC_VERSION: 3.9.2
-    VERSION: 3.9.2
+  release:
+    tags:
+      - v*
 
 jobs:
     build:
@@ -25,31 +11,11 @@ jobs:
         steps:
         - name: Checkout
           uses: actions/checkout@v2
+
+        - name: Get avdc version
+          run: |
+            echo "AVDC_VERSION=$(cat VERSION)" >> $GITHUB_ENV
         
-        - name: Create Test User
-          run: |
-            sudo groupadd -g 1024 avdc
-            sudo useradd -u 1024 avdc -g avdc
-            sudo chown -R 1024:1024 Test
-
-        - name: Build the test image
-          run: |
-            docker build -t vergilgao/avdc:test \
-              --build-arg AVDC_VERSION=${{ env.AVDC_VERSION }} \
-              --build-arg BUILD_DATE=$(date +"%Y-%m-%d") \
-              --build-arg VERSION=${{ env.VERSION }} \
-              .  
-
-        - name: Run the Test
-          if: success()
-          run: |
-            docker run \
-              -e SUCCESS_OUTPUT="test_output" \
-              -e DEBUG=1 \
-              -v ${PWD}/Test:/app/data \
-              vergilgao/avdc:test
-            find . -name MIFD-046.mp4
-
         - name: Set up QEMU
           uses: docker/setup-qemu-action@v1
           if: success()
@@ -76,7 +42,6 @@ jobs:
             build-args: |
               AVDC_VERSION=${{ env.AVDC_VERSION }}
               BUILD_DATE=$(date +"%Y-%m-%d")
-              VERSION=${{ env.VERSION }}
             tags: |
-              vergilgao/avdc:${{ env.VERSION }}
+              vergilgao/avdc:${{ env.AVDC_VERSION }}
               vergilgao/avdc:latest

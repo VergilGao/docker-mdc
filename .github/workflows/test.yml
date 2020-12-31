@@ -1,0 +1,54 @@
+name: test
+
+on: 
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - "**.md"
+      - ".github/workflows/sync-readme.yml"
+      - "LICENSE"
+  pull_request:
+    paths-ignore:
+      - "**.md"
+      - ".github/workflows/sync-readme.yml"
+      - "LICENSE"
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+        - name: Checkout
+          uses: actions/checkout@v2
+
+        - name: Get avdc version
+          run: |
+            echo "AVDC_VERSION=$(cat VERSION)" >> $GITHUB_ENV
+        
+        - name: Create Test User
+          run: |
+            sudo groupadd -g 1024 avdc
+            sudo useradd -u 1024 avdc -g avdc
+            sudo chown -R 1024:1024 Test
+
+        - name: Build the test image
+          run: |
+            docker build -t vergilgao/avdc:test \
+              --build-arg AVDC_VERSION=${{ env.AVDC_VERSION }} \
+              --build-arg BUILD_DATE=$(date +"%Y-%m-%d") \
+              .  
+
+        - name: Run the Test
+          if: success()
+          run: |
+            docker run \
+              -e SUCCESS_OUTPUT="test_output" \
+              -e DEBUG=1 \
+              -v ${PWD}/Test:/app/data \
+              vergilgao/avdc:test
+            echo "files in Test"
+            ls -l Test
+            echo "files in output"
+            ls -l Test/test_output
+            echo "files in failed"
+            ls -l Test/failed

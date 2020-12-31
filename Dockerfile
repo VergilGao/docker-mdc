@@ -26,8 +26,7 @@ COPY docker-entrypoint.sh docker-entrypoint.sh
 
 # 镜像版本号
 ARG BUILD_DATE
-ARG VERSION
-LABEL build_version="catfight360.com version:- ${VERSION} build-date:- ${BUILD_DATE}"
+LABEL build_version="catfight360.com avdc-version:- ${AVDC_VERSION} build-date:- ${BUILD_DATE}"
 
 RUN chmod +x docker-entrypoint.sh
 
