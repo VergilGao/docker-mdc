@@ -46,9 +46,5 @@ jobs:
               -e DEBUG=1 \
               -v ${PWD}/Test:/app/data \
               vergilgao/avdc:test
-            echo "files in Test"
-            ls -l Test
-            echo "files in output"
-            ls -l Test/test_output
-            echo "files in failed"
-            ls -l Test/failed
+            find . -name MIFD-046.mp4
+            find . -name SVDVD-471.mp4
