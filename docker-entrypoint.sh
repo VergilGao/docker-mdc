@@ -6,6 +6,7 @@ SUCCESS_OUTPUT=${SUCCESS_OUTPUT:-"output"}
 SOFT_LINK=${SOFT_LINK:-"0"}
 FAILED_MOVE=${FAILED_MOVE:-"1"}
 TRANSLATE=${TRANSLATE:-"1"}
+USE_PROXY=${USE_PROXY:-"0"}
 PROXY_TYPE=${PROXY_TYPE:-"socks5"}
 PROXY_URI=${PROXY_URI}
 TIMEOUT=${TIMEOUT:-"5"}
@@ -30,7 +31,7 @@ auto_exit=1
 transalte_to_sc=${TRANSLATE}
 
 [proxy]
-;proxytype: http or socks5 or socks5h
+switch=${USE_PROXY}
 type=${PROXY_TYPE}
 proxy=${PROXY_URI}
 timeout=${TIMEOUT}
@@ -53,6 +54,11 @@ folders=${ESCAPE_FOLDERS}
 
 [debug_mode]
 switch=${DEBUG}
+
+[transalte]
+switch=0
+values=title,outline
+
 EOF
 
 exec python AV_Data_Capture.py
