@@ -7,11 +7,13 @@ on:
     paths-ignore:
       - "**.md"
       - ".github/workflows/sync-readme.yml"
+      - ".github/workflows/release.yml"
       - "LICENSE"
   pull_request:
     paths-ignore:
       - "**.md"
       - ".github/workflows/sync-readme.yml"
+      - ".github/workflows/release.yml"
       - "LICENSE"
 
 jobs:
