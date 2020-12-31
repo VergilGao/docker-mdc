@@ -27,12 +27,14 @@
 首先你可以测试一下程序是否可用。
 
 ```sh
-docker pull vergilgao/avdc:3.9.2
+docker pull vergilgao/avdc:latest
 mkdir test
 touch test/MIFD-046.mp4
-docker run --rm --name avdc_test -it -v ${PWD}/test:/app/data vergilgao/avdc:3.9.2
+docker run --rm --name avdc_test -it -v ${PWD}/test:/app/data vergilgao/avdc:latest
 ```
+
 然后你会看到如下输出：
+
 ```sh
 [*]================== AV Data Capture ===================
 [*]                    Version 3.9.2
@@ -46,7 +48,9 @@ docker run --rm --name avdc_test -it -v ${PWD}/test:/app/data vergilgao/avdc:3.9
 [*]======================================================
 [+]All finished!!!
 ```
+
 确认程序没有问题后把测试数据删掉就好了。
+
 ```sh
 sudo rm -rf test
 ```
@@ -56,39 +60,35 @@ sudo rm -rf test
 与源程序不同，本镜像使用运行时的环境变量来完成自定义配置。
 
 ```sh
-docker run -it \
-	--name avdc_test \
-	-v ${PWD}/test:/app/data \
-	-e PROXY_TYPE="socks5" \
-	-e PROXY_URI="127.0.0.1:1080" \
-	vergilgao/avdc:3.9.2
+docker run --rm -it \
+  --name avdc_test \
+  -v ${PWD}/test:/app/data \
+  -e USE_PROXY=1 \
+  -e PROXY_TYPE="socks5" \
+  -e PROXY_URI="127.0.0.1:1080" \
+  vergilgao/avdc:latest
 ```
 
 注意，尽量将环境变量值包含在`""`内，同时请勿再在环境变量中使用`""`。
 
 环境变量字段和原程序`config.ini`文件的字段对应关系如下。
 
-| 字段名           | 原 ini 文件字段       | 值语义 | 预设值 |
-| ---------------- | --------------------- | ------ | ------ |
-| FAILED_OUTPUT    | failed_output_folder  |        |        |
-| SUCCESS_OUTPUT   | success_output_folder |        |        |
-| SOFT_LINK        | soft_link             |        |        |
-| FAILED_MOVE      | failed_move           |        |        |
-| TRANSLATE        | transalte_to_sc       |        |        |
-| PROXY_TYPE       | type                  |        |        |
-| PROXY_URI        | proxy                 |        |        |
-| TIMEOUT          | timeout               |        |        |
-| RETRY            | retry                 |        |        |
-| LOCATION_RULE    | location_rule         |        |        |
-| NAMING_RULE      | naming_rule           |        |        |
-| MAX_TITLE_LEN    | max_title_len         |        |        |
-| PRIORITY_WEBSITE | website               |        |        |
-| ESCAPE_FOLDERS   | folders               |        |        |
-| ESCAPE_LITERALS  | literals              |        |        |
-| DEBUG            | switch                |        |        |
-
-## TODO List
-
-- [x] 将`config.ini`中的配置项改为环境变量
-- [ ] 完善环境变量
-- [ ] 增加定时运行选项
+| 字段名           | 原 ini 文件字段       | 值语义                           | 预设值                       |
+| :--------------- | :-------------------- | :------------------------------- | :--------------------------- |
+| FAILED_OUTPUT    | failed_output_folder  | 失败输出目录                     | failed                       |
+| SUCCESS_OUTPUT   | success_output_folder | 成功输出目录                     | output                       |
+| SOFT_LINK        | soft_link             | 软连接模式                       | 0                            |
+| FAILED_MOVE      | failed_move           | 移动失败刮削文件至失败输出文件夹 | 1                            |
+| TRANSLATE        | transalte_to_sc       | 翻译至简体中文                   | 1                            |
+| USE_PROXY        | switch                | 开启代理                         | 0                            |
+| PROXY_TYPE       | type                  | 代理类型                         | socket5                      |
+| PROXY_URI        | proxy                 | 代理地址                         | ""                           |
+| TIMEOUT          | timeout               | 刮削超时时间                     | 5                            |
+| RETRY            | retry                 | 重试次数                         | 3                            |
+| LOCATION_RULE    | location_rule         | 文件目录命名规则                 | "actor+'/'+number"           |
+| NAMING_RULE      | naming_rule           | nfo文件中影片命名规则            | "number+'-'+title"           |
+| MAX_TITLE_LEN    | max_title_len         | 最大标题长度                     | 50                           |
+| PRIORITY_WEBSITE | website               | 刮削数据网站                     | 原仓库预设值                 |
+| ESCAPE_FOLDERS   | folders               | 排除目录                         | FAILED_OUTPUT,SUCCESS_OUTPUT |
+| ESCAPE_LITERALS  | literals              | 去除文件名中的特殊符号           | "\()/"                       |
+| DEBUG            | switch                | 测试输出                         | 0                            |
