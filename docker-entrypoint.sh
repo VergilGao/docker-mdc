@@ -14,7 +14,7 @@ RETRY=${RETRY:-"3"}
 LOCATION_RULE=${LOCATION_RULE:-"actor+'/'+number"}
 NAMING_RULE=${NAMING_RULE:-"number+'-'+title"}
 MAX_TITLE_LEN=${MAX_TITLE_LEN:-"50"}
-PRIORITY_WEBSITE=${PRIORITY_WEBSITE:-"javbus,javdb,fanza,xcity,mgstage,fc2,avsox,jav321,javlib,dlsite"}
+PRIORITY_WEBSITE=${PRIORITY_WEBSITE:-"airav,javbus,javdb,fanza,xcity,mgstage,fc2,avsox,jav321,javlib,dlsite"}
 ESCAPE_FOLDERS=${ESCAPE_FOLDERS:-"${SUCCESS_OUTPUT},${FAILED_OUTPUT}"}
 ESCAPE_LITERALS=${ESCAPE_LITERALS:-"\()/"}
 DEBUG=${DEBUG:-"0"}
@@ -58,6 +58,32 @@ switch=${DEBUG}
 [transalte]
 switch=0
 values=title,outline
+
+; 预告片
+[trailer]
+switch=0
+
+; 用来确定是否是无码
+[uncensored]
+uncensored_prefix=S2M,BT,LAF,SMD
+
+
+[media]
+; 影片后缀
+media_type=.mp4,.avi,.rmvb,.wmv,.mov,.mkv,.flv,.ts,.webm,.iso
+; 字幕后缀
+sub_type=.smi,.srt,.idx,.sub,.sup,.psb,.ssa,.ass,.txt,.usf,.xss,.ssf,.rt,.lrc,.sbv,.vtt,.ttml
+
+; 水印
+[watermark]
+switch=0
+water=2
+; 左上 0, 右上 1, 右下 2， 左下 3
+
+; 剧照
+[extrafanart]
+switch=0
+extrafanart_folder=extrafanart
 
 EOF
 
