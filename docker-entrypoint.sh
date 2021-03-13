@@ -9,6 +9,7 @@ TRANSLATE=${TRANSLATE:-"1"}
 USE_PROXY=${USE_PROXY:-"0"}
 PROXY_TYPE=${PROXY_TYPE:-"socks5"}
 PROXY_URI=${PROXY_URI}
+CACERT_FILE=${CACERT_FILE}
 TIMEOUT=${TIMEOUT:-"5"}
 RETRY=${RETRY:-"3"}
 LOCATION_RULE=${LOCATION_RULE:-"actor+'/'+number"}
@@ -36,6 +37,7 @@ type=${PROXY_TYPE}
 proxy=${PROXY_URI}
 timeout=${TIMEOUT}
 retry=${RETRY}
+cacert_file=${CACERT_FILE}
 
 [Name_Rule]
 location_rule=${LOCATION_RULE}
