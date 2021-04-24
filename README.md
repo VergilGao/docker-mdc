@@ -106,4 +106,4 @@ docker run --rm -it \
 | ESCAPE_LITERALS  | literals              | 去除文件名中的特殊符号           | "\()/"                       |
 | DEBUG            | switch                | 测试输出                         | 0                            |
 
-注1：刮削数据网站顺序与原仓库略有不同，为："javbus,javlib,javdb,fanza,xcity,mgstage,fc2,avsox,jav321,dlsite" 如果不喜欢airav的数据可以自行调整。
+注1：刮削数据网站顺序与原仓库略有不同，为："javbus,javlib,javdb,fanza,xcity,mgstage,fc2,avsox,jav321,dlsite"。
