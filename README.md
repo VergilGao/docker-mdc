@@ -86,6 +86,7 @@ docker run --rm -it \
 | USE_PROXY        | switch                | 开启代理                         | 0                            |
 | PROXY_TYPE       | type                  | 代理类型                         | socket5                      |
 | PROXY_URI        | proxy                 | 代理地址                         | ""                           |
+| CACERT_FILE      | cacert_file           | 证书文件                         | ""                           |
 | TIMEOUT          | timeout               | 刮削超时时间                     | 5                            |
 | RETRY            | retry                 | 重试次数                         | 3                            |
 | LOCATION_RULE    | location_rule         | 文件目录命名规则                 | "actor+'/'+number"           |
