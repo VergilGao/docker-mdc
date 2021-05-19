@@ -10,7 +10,7 @@
 
 重要的事情说三遍。
 
-注意：上游 4.2.2 版本具有恶性BUG，不建议使用，仍然推荐使用 3.9.2 版本的镜像。
+注意：上游 4.5.1 版本具有恶性BUG，不建议使用，推荐使用4.6.3最新版本。
 
 `AV_Data_Capture` 以下简称`avdc`是一款由[yoshiko2](https://github.com/yoshiko2)使用`python`编写的日本AV刮削器。
 
@@ -39,7 +39,7 @@ docker run --rm --name avdc_test -it -v ${PWD}/test:/app/data vergilgao/avdc:lat
 
 ```sh
 [*]================== AV Data Capture ===================
-[*]                    Version 3.9.2
+[*]                    Version 4.6.3
 [*]======================================================
 [+]Find 1 movies
 [!] - 100.% [1/1] -
@@ -69,17 +69,6 @@ docker run --rm -it \
   -e PROXY_TYPE="socks5" \
   -e PROXY_URI="127.0.0.1:1080" \
   vergilgao/avdc:latest
-```
-
-3.9.2 版本：
-
-```sh
-docker run --rm -it \
-  --name avdc_test \
-  -v ${PWD}/test:/app/data \
-  -e PROXY_TYPE="socks5" \
-  -e PROXY_URI="127.0.0.1:1080" \
-  vergilgao/avdc:3.9.2
 ```
 
 注意，尽量将环境变量值包含在`""`内，同时请勿再在环境变量中使用`""`。
