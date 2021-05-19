@@ -6,6 +6,7 @@ SUCCESS_OUTPUT=${SUCCESS_OUTPUT:-"output"}
 SOFT_LINK=${SOFT_LINK:-"0"}
 FAILED_MOVE=${FAILED_MOVE:-"1"}
 TRANSLATE=${TRANSLATE:-"1"}
+MULTI_THREAD=${MULTI_THREAD:-"1"}
 USE_PROXY=${USE_PROXY:-"0"}
 PROXY_TYPE=${PROXY_TYPE:-"socks5"}
 PROXY_URI=${PROXY_URI}
@@ -30,6 +31,7 @@ soft_link=${SOFT_LINK}
 failed_move=${FAILED_MOVE}
 auto_exit=1
 transalte_to_sc=${TRANSLATE}
+multi_threading=${MULTI_THREAD}
 
 [proxy]
 switch=${USE_PROXY}
