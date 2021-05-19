@@ -93,6 +93,7 @@ docker run --rm -it \
 | SOFT_LINK        | soft_link             | 软连接模式                       | 0                            |
 | FAILED_MOVE      | failed_move           | 移动失败刮削文件至失败输出文件夹 | 1                            |
 | TRANSLATE        | transalte_to_sc       | 翻译至简体中文                   | 1                            |
+| MULTI_THREAD     | multi_threading       | 多线程刮削                       | 1                            |
 | USE_PROXY        | switch                | 开启代理                         | 0                            |
 | PROXY_TYPE       | type                  | 代理类型                         | socket5                      |
 | PROXY_URI        | proxy                 | 代理地址                         | ""                           |
