@@ -102,9 +102,7 @@ docker run --rm -it \
 | LOCATION_RULE    | location_rule         | 文件目录命名规则                 | "actor+'/'+number"           |
 | NAMING_RULE      | naming_rule           | nfo文件中影片命名规则            | "number+'-'+title"           |
 | MAX_TITLE_LEN    | max_title_len         | 最大标题长度                     | 50                           |
-| PRIORITY_WEBSITE | website               | 刮削数据网站                     | 见下文注1                 |
+| PRIORITY_WEBSITE | website               | 刮削数据网站                     | 与源仓库相同               |
 | ESCAPE_FOLDERS   | folders               | 排除目录                         | FAILED_OUTPUT,SUCCESS_OUTPUT |
 | ESCAPE_LITERALS  | literals              | 去除文件名中的特殊符号           | "\()/"                       |
 | DEBUG            | switch                | 测试输出                         | 0                            |
-
-注1：刮削数据网站顺序与原仓库略有不同，为："javbus,javlib,javdb,fanza,xcity,mgstage,fc2,avsox,jav321,dlsite"。
