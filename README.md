@@ -95,4 +95,10 @@ docker run --rm -it \
 | PRIORITY_WEBSITE | website               | 刮削数据网站                     | 与源仓库相同               |
 | ESCAPE_FOLDERS   | folders               | 排除目录                         | FAILED_OUTPUT,SUCCESS_OUTPUT |
 | ESCAPE_LITERALS  | literals              | 去除文件名中的特殊符号           | "\()/"                       |
+| WATERMARK        | switch                | 水印开关                         | 0         |
+| WATERMARK_POSITION        | water                | 水印位置                         | 2         |
+| EXTRAFANART        | switch                | 剧照开关                         | 0         |
+| EXTRAFANART_FOLDER        | extrafanart_folder    | 剧照文件夹                        | extrafanart         |
 | DEBUG            | switch                | 测试输出                         | 0                            |
+
+注：水印位置定义，左上 0, 右上 1, 右下 2， 左下 3
