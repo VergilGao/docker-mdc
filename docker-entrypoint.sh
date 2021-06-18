@@ -19,6 +19,10 @@ MAX_TITLE_LEN=${MAX_TITLE_LEN:-"50"}
 PRIORITY_WEBSITE=${PRIORITY_WEBSITE:-"javbus,javdb,airav,fanza,xcity,mgstage,fc2,avsox,dlsite,carib"}
 ESCAPE_FOLDERS=${ESCAPE_FOLDERS:-"${SUCCESS_OUTPUT},${FAILED_OUTPUT}"}
 ESCAPE_LITERALS=${ESCAPE_LITERALS:-"\()/"}
+WATERMARK=${WATERMARK:-"0"}
+WATERMARK_POSITION=${WATERMARK_POSITION:-"2"}
+EXTRAFANART=${EXTRAFANART:-"0"}
+EXTRAFANART_FOLDER=${EXTRAFANART_FOLDER:-"extrafanart"}
 DEBUG=${DEBUG:-"0"}
 
 cd /app
@@ -81,14 +85,14 @@ sub_type=.smi,.srt,.idx,.sub,.sup,.psb,.ssa,.ass,.txt,.usf,.xss,.ssf,.rt,.lrc,.s
 
 ; 水印
 [watermark]
-switch=0
-water=2
+switch=${WATERMARK}
+water=${WATERMARK_POSITION}
 ; 左上 0, 右上 1, 右下 2， 左下 3
 
 ; 剧照
 [extrafanart]
-switch=0
-extrafanart_folder=extrafanart
+switch=${EXTRAFANART}
+extrafanart_folder=${EXTRAFANART_FOLDER}
 
 EOF
 
