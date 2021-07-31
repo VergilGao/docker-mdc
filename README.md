@@ -10,7 +10,7 @@
 
 重要的事情说三遍。
 
-注意：上游 4.5.1 版本具有恶性BUG，不建议使用，推荐使用4.6.3最新版本。
+注意：上游 4.5.1 版本具有恶性BUG，不建议使用，推荐使用最新版本。
 
 `AV_Data_Capture` 以下简称`avdc`是一款由[yoshiko2](https://github.com/yoshiko2)使用`python`编写的日本AV刮削器。
 
@@ -39,7 +39,7 @@ docker run --rm --name avdc_test -it -v ${PWD}/test:/app/data vergilgao/avdc:lat
 
 ```sh
 [*]================== AV Data Capture ===================
-[*]                    Version 4.6.3
+[*]                    Version 4.6.7
 [*]======================================================
 [+]Find 1 movies
 [!] - 100.% [1/1] -
