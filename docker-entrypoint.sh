@@ -6,6 +6,7 @@ SUCCESS_OUTPUT=${SUCCESS_OUTPUT:-"output"}
 SOFT_LINK=${SOFT_LINK:-"0"}
 FAILED_MOVE=${FAILED_MOVE:-"1"}
 TRANSLATE=${TRANSLATE:-"1"}
+DEL_EMPTY_FOLDER=${DEL_EMPTY_FOLDER:-"1"}
 MULTI_THREAD=${MULTI_THREAD:-"1"}
 USE_PROXY=${USE_PROXY:-"0"}
 PROXY_TYPE=${PROXY_TYPE:-"socks5"}
@@ -36,6 +37,7 @@ failed_move=${FAILED_MOVE}
 auto_exit=1
 transalte_to_sc=${TRANSLATE}
 multi_threading=${MULTI_THREAD}
+del_empty_folder=${DEL_EMPTY_FOLDER}
 actor_gender=female
 
 [proxy]
