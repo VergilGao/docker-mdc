@@ -14,6 +14,11 @@ PROXY_URI=${PROXY_URI}
 CACERT_FILE=${CACERT_FILE}
 TIMEOUT=${TIMEOUT:-"5"}
 RETRY=${RETRY:-"3"}
+NFO_SKIP_DAYS=${NFO_SKIP_DAYS:-"30"}
+STOP_COUNTER=${STOP_COUNTER:-"0"}
+IGNORE_FAILED_LIST=${IGNORE_FAILED_LIST:-"0"}
+DOWNLOAD_ONLY_MISSING_IMAGES=${DOWNLOAD_ONLY_MISSING_IMAGES:-"1"}
+MAPPING_TABLE_VALIDITY=${MAPPING_TABLE_VALIDITY:-"7"}
 LOCATION_RULE=${LOCATION_RULE:-"actor+'/'+number"}
 NAMING_RULE=${NAMING_RULE:-"number+'-'+title"}
 MAX_TITLE_LEN=${MAX_TITLE_LEN:-"50"}
@@ -25,6 +30,16 @@ WATERMARK_POSITION=${WATERMARK_POSITION:-"2"}
 EXTRAFANART=${EXTRAFANART:-"0"}
 EXTRAFANART_FOLDER=${EXTRAFANART_FOLDER:-"extrafanart"}
 DEBUG=${DEBUG:-"0"}
+
+STORYLINE_SWITCH=${STORYLINE_SWITCH:-"1"}
+STORYLINE_SITE=${STORYLINE_SITE:-"=1:avno1,4:airavwiki"}
+STORYLINE_CENSORED_SITE=${STORYLINE_CENSORED_SITE:-"2:airav,5:xcity,6:amazon"}
+STORYLINE_UNCENSORED_SITE=${STORYLINE_UNCENSORED_SITE:-"3:58avgo"}
+STORYLINE_RUN_MODE=${STORYLINE_RUN_MODE:-"1"}
+STORYLINE_SHOW_RESULT=${STORYLINE_SHOW_RESULT:-"0"}
+CC_CONVERT_MODE=${CC_CONVERT_MODE:-"1"}
+CC_CONVERT_VARS=${CC_CONVERT_VARS:-"outline,series,studio,tag,title"}
+JAVDB_SITES=${JAVDB_SITES:-"33,34"}
 
 cd /app
 cat>config.ini<<EOF
@@ -39,6 +54,11 @@ transalte_to_sc=${TRANSLATE}
 multi_threading=${MULTI_THREAD}
 del_empty_folder=${DEL_EMPTY_FOLDER}
 actor_gender=female
+nfo_skip_days=${NFO_SKIP_DAYS}
+stop_counter=${STOP_COUNTER}
+ignore_failed_list=${IGNORE_FAILED_LIST}
+download_only_missing_images=${DOWNLOAD_ONLY_MISSING_IMAGES}
+mapping_table_validity=${MAPPING_TABLE_VALIDITY}
 
 [proxy]
 switch=${USE_PROXY}
@@ -95,6 +115,25 @@ water=${WATERMARK_POSITION}
 [extrafanart]
 switch=${EXTRAFANART}
 extrafanart_folder=${EXTRAFANART_FOLDER}
+
+; 剧情简介
+[storyline]
+switch=${STORYLINE_SWITCH}
+site=${STORYLINE_SITE}
+censored_site=${STORYLINE_CENSORED_SITE}
+uncensored_site=${STORYLINE_UNCENSORED_SITE}
+; 运行模式：0:顺序执行(最慢) 1:线程池(默认值) 2:进程池(启动开销比线程池大，并发站点越多越快)
+run_mode=${STORYLINE_RUN_MODE}
+; show_result剧情简介调试信息 0关闭 1简略 2详细(详细部分不记入日志)，剧情简介失效时可打开2查看原因
+show_result=${STORYLINE_SHOW_RESULT}
+
+; 繁简转换 繁简转换模式mode=0:不转换 1:繁转简 2:简转繁
+[cc_convert]
+mode=${CC_CONVERT_MODE}
+vars=${CC_CONVERT_VARS}
+
+[javdb]
+sites=${JAVDB_SITES}
 
 EOF
 
