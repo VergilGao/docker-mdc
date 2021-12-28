@@ -2,15 +2,15 @@ FROM python:3.8-slim
 LABEL maintainer="VergilGao"
 
 # 软件包版本号
-ARG AVDC_VERSION
+ARG MDC_VERSION
 
 RUN \
     apt-get update && \
     apt-get install -y wget ca-certificates && \
     mkdir build && \
     cd build && \
-    wget -O - https://github.com/yoshiko2/AV_Data_Capture/archive/${AVDC_VERSION}.tar.gz | tar xz && \
-    mv AV_Data_Capture-${AVDC_VERSION} /app && \
+    wget -O - https://github.com/yoshiko2/Movie_Data_Capture/archive/${MDC_VERSION}.tar.gz | tar xz && \
+    mv AV_Data_Capture-${MDC_VERSION} /app && \
     cd .. && \
     rm -rf build && \
     cd /app && \
@@ -26,7 +26,7 @@ COPY docker-entrypoint.sh docker-entrypoint.sh
 
 # 镜像版本号
 ARG BUILD_DATE
-LABEL build_version="catfight360.com avdc-version:- ${AVDC_VERSION} build-date:- ${BUILD_DATE}"
+LABEL build_version="catfight360.com mdc-version:- ${MDC_VERSION} build-date:- ${BUILD_DATE}"
 
 RUN chmod +x docker-entrypoint.sh
 
