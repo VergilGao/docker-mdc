@@ -1,4 +1,4 @@
-# 用更优雅的方式管理硬盘中的大姐姐们(测试版)
+# Movie Data Capture - Docker
 
 ![publish](https://github.com/VergilGao/docker-mdc/workflows/publish/badge.svg) [![GitHub license](https://img.shields.io/github/license/VergilGao/docker-mdc)](https://github.com/VergilGao/docker-mdc/blob/master/LICENSE)
 
