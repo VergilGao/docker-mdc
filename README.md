@@ -121,7 +121,6 @@ docker run --rm -it \
 ## 构建（开发人员）
 ```
 cd docker-mdc
-docker build --build-arg MDC_VERSION="6.0.1" ./
 docker build -t mdc --build-arg MDC_VERSION="6.0.1" ./
 
 mkdir test
