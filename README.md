@@ -1,6 +1,6 @@
 # Movie Data Capture - Docker
 
-![publish](https://github.com/yoshiko2/docker-mdc/workflows/publish/badge.svg) [![GitHub license](https://img.shields.io/github/license/yoshiko2/docker-mdc)](https://github.com/yoshiko2/docker-mdc/blob/master/LICENSE)
+![publish](https://github.com/VergilGao/docker-mdc/workflows/publish/badge.svg) [![GitHub license](https://img.shields.io/github/license/VergilGao/docker-mdc)](https://github.com/VergilGao/docker-mdc/blob/master/LICENSE)
 
 **数据无价，请谨慎操作！**
 
