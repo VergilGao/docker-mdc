@@ -25,7 +25,7 @@ jobs:
 
         - name: Get avdc version
           run: |
-            echo "AVDC_VERSION=$(cat VERSION)" >> $GITHUB_ENV
+            echo "MDC_VERSION=$(cat VERSION)" >> $GITHUB_ENV
         
         - name: Create Test User
           run: |
@@ -36,7 +36,7 @@ jobs:
         - name: Build the test image
           run: |
             docker build -t vergilgao/avdc:test \
-              --build-arg AVDC_VERSION=${{ env.AVDC_VERSION }} \
+              --build-arg MDC_VERSION=${{ env.MDC_VERSION }} \
               --build-arg BUILD_DATE=$(date +"%Y-%m-%d") \
               .  
 
