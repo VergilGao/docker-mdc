@@ -117,3 +117,14 @@ docker run --rm -it \
 
 
 注：水印位置定义，左上 0, 右上 1, 右下 2， 左下 3
+
+## 构建（开发人员）
+```
+cd docker-mdc
+docker build --build-arg MDC_VERSION="6.0.1" ./
+docker build -t mdc --build-arg MDC_VERSION="6.0.1" ./
+
+mkdir test
+touch test/MIFD-046.mp4
+docker run --rm --name mdc_test -it -v ${PWD}/test:/app/data mdc
+```
