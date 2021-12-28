@@ -137,4 +137,4 @@ sites=${JAVDB_SITES}
 
 EOF
 
-exec python AV_Data_Capture.py
+exec python Movie_Data_Capture.py
