@@ -75,6 +75,8 @@ docker run --rm -it \
 
 | 字段名           | 原 ini 文件字段       | 值语义                           | 预设值                       |
 | :--------------- | :-------------------- | :------------------------------- | :--------------------------- |
+| MAIN_MODE                      | main_mode                      | 运行模式                         | 1                            |
+| SOURCE_FOLDER                  | source_folder                  | 原影片输入目录                   | ./                           |
 | FAILED_OUTPUT                  | failed_output_folder           | 失败输出目录                     | failed                       |
 | SUCCESS_OUTPUT                 | success_output_folder          | 成功输出目录                     | output                       |
 | SOFT_LINK                      | soft_link                      | 软连接模式                       | 0                            |

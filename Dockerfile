@@ -10,11 +10,7 @@ RUN \
     mkdir build && \
     cd build && \
     wget -O - https://github.com/yoshiko2/Movie_Data_Capture/archive/${MDC_VERSION}.tar.gz | tar xz && \
-<<<<<<< HEAD
-    mv AV_Data_Capture-${MDC_VERSION} /app && \
-=======
     mv Movie_Data_Capture-${MDC_VERSION} /app && \
->>>>>>> 64f17757eb94d5ef9f63148f05f2f213884fd64b
     cd .. && \
     rm -rf build && \
     cd /app && \
