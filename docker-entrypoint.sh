@@ -1,6 +1,8 @@
 #! /bin/bash
 set -e
 
+MAIN_MODE=${MAIN_MODE:-"1"}
+SOURCE_FOLDER=${SOURCE_FOLDER:-"./"}
 FAILED_OUTPUT=${FAILED_OUTPUT:-"failed"}
 SUCCESS_OUTPUT=${SUCCESS_OUTPUT:-"output"}
 SOFT_LINK=${SOFT_LINK:-"0"}
@@ -44,7 +46,8 @@ JAVDB_SITES=${JAVDB_SITES:-"33,34"}
 cd /app
 cat>config.ini<<EOF
 [common]
-main_mode=1
+main_mode=${MAIN_MODE}
+source_folder=${SOURCE_FOLDER}
 failed_output_folder=data/${FAILED_OUTPUT}
 success_output_folder=data/${SUCCESS_OUTPUT}
 soft_link=${SOFT_LINK}
