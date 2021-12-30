@@ -38,6 +38,8 @@ jobs:
             platforms: linux/amd64,linux/arm64
             push: true
             tags: |
+              vergilgao/mdc:${{ env.MDC_VERSION }}
+              vergilgao/mdc:latest
               vergilgao/avdc:${{ env.MDC_VERSION }}
               vergilgao/avdc:latest
             build-args: |
