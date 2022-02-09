@@ -1,5 +1,4 @@
 #! /bin/bash
-set -e
 
 MAIN_MODE=${MAIN_MODE:-"1"}
 SOURCE_FOLDER=${SOURCE_FOLDER:-"./"}
@@ -43,13 +42,13 @@ CC_CONVERT_MODE=${CC_CONVERT_MODE:-"1"}
 CC_CONVERT_VARS=${CC_CONVERT_VARS:-"outline,series,studio,tag,title"}
 JAVDB_SITES=${JAVDB_SITES:-"33,34"}
 
-cd /app
-cat>config.ini<<EOF
+mk_config() {
+    cat>/root/mdc.ini<<EOF
 [common]
 main_mode=${MAIN_MODE}
 source_folder=${SOURCE_FOLDER}
-failed_output_folder=data/${FAILED_OUTPUT}
-success_output_folder=data/${SUCCESS_OUTPUT}
+failed_output_folder=${FAILED_OUTPUT}
+success_output_folder=${SUCCESS_OUTPUT}
 soft_link=${SOFT_LINK}
 failed_move=${FAILED_MOVE}
 auto_exit=1
@@ -62,7 +61,6 @@ stop_counter=${STOP_COUNTER}
 ignore_failed_list=${IGNORE_FAILED_LIST}
 download_only_missing_images=${DOWNLOAD_ONLY_MISSING_IMAGES}
 mapping_table_validity=${MAPPING_TABLE_VALIDITY}
-
 [proxy]
 switch=${USE_PROXY}
 type=${PROXY_TYPE}
@@ -70,55 +68,42 @@ proxy=${PROXY_URI}
 timeout=${TIMEOUT}
 retry=${RETRY}
 cacert_file=${CACERT_FILE}
-
 [Name_Rule]
 location_rule=${LOCATION_RULE}
 naming_rule=${NAMING_RULE}
 max_title_len=${MAX_TITLE_LEN}
-
 [update]
 update_check=0
-
 [priority]
 website=${PRIORITY_WEBSITE}
-
 [escape]
 literals=${ESCAPE_LITERALS}
 folders=${ESCAPE_FOLDERS}
-
 [debug_mode]
 switch=${DEBUG}
-
 [transalte]
 switch=0
 values=title,outline
-
 ; 预告片
 [trailer]
 switch=0
-
 ; 用来确定是否是无码
 [uncensored]
 uncensored_prefix=S2M,BT,LAF,SMD
-
-
 [media]
 ; 影片后缀
 media_type=.mp4,.avi,.rmvb,.wmv,.mov,.mkv,.flv,.ts,.webm,.iso
 ; 字幕后缀
 sub_type=.smi,.srt,.idx,.sub,.sup,.psb,.ssa,.ass,.txt,.usf,.xss,.ssf,.rt,.lrc,.sbv,.vtt,.ttml
-
 ; 水印
 [watermark]
 switch=${WATERMARK}
 water=${WATERMARK_POSITION}
 ; 左上 0, 右上 1, 右下 2， 左下 3
-
 ; 剧照
 [extrafanart]
 switch=${EXTRAFANART}
 extrafanart_folder=${EXTRAFANART_FOLDER}
-
 ; 剧情简介
 [storyline]
 switch=${STORYLINE_SWITCH}
@@ -129,15 +114,30 @@ uncensored_site=${STORYLINE_UNCENSORED_SITE}
 run_mode=${STORYLINE_RUN_MODE}
 ; show_result剧情简介调试信息 0关闭 1简略 2详细(详细部分不记入日志)，剧情简介失效时可打开2查看原因
 show_result=${STORYLINE_SHOW_RESULT}
-
 ; 繁简转换 繁简转换模式mode=0:不转换 1:繁转简 2:简转繁
 [cc_convert]
 mode=${CC_CONVERT_MODE}
 vars=${CC_CONVERT_VARS}
-
 [javdb]
 sites=${JAVDB_SITES}
-
 EOF
+}
 
-exec python Movie_Data_Capture.py
+run_mdc() {
+    cd /data
+    s6-setuidgid alpha \
+      /app/Movie_Data_Capture
+}
+
+PUID=${PUID:-666}
+PGID=${PGID:-666}
+
+groupmod -o -g "$PGID" alpha
+usermod -o -u "$PUID" alpha
+
+
+mk_config
+chown -R alpha:alpha /root
+chown alpha:alpha /app
+chown -R alpha:alpha /data
+run_mdc

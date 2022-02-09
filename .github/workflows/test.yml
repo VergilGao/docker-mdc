@@ -31,7 +31,6 @@ jobs:
           run: |
             sudo groupadd -g 1024 avdc
             sudo useradd -u 1024 avdc -g avdc
-            sudo chown -R 1024:1024 Test
 
         - name: Build the test image
           run: |
@@ -43,10 +42,13 @@ jobs:
         - name: Run the Test
           if: success()
           run: |
+            mkdir test
+            dd if=/dev/zero of="./test/MIFD-046.mp4" bs=250MB count=1
+            dd if=/dev/zero of="./test/SVDVD-471.mp4.mp4" bs=250MB count=1
             docker run \
               -e SUCCESS_OUTPUT="test_output" \
               -e DEBUG=1 \
-              -v ${PWD}/Test:/app/data \
+              -v ${PWD}/test:/data \
               vergilgao/avdc:test
             find . -name MIFD-046.mp4
             find . -name SVDVD-471.mp4

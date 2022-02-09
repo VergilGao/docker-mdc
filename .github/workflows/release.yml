@@ -4,6 +4,10 @@ on:
   push:
     tags:
       - v*
+  workflow_dispatch:
+    inputs:
+      build:
+        description: '构建并上传镜像'
 
 jobs:
     build:
@@ -35,13 +39,11 @@ jobs:
           with:
             context: .
             file: ./Dockerfile
-            platforms: linux/amd64,linux/arm64
+            platforms: linux/amd64
             push: true
             tags: |
               vergilgao/mdc:${{ env.MDC_VERSION }}
               vergilgao/mdc:latest
-              vergilgao/avdc:${{ env.MDC_VERSION }}
-              vergilgao/avdc:latest
             build-args: |
               MDC_VERSION=${{ env.MDC_VERSION }}
               BUILD_DATE=${{ env.BUILD_DATE }}
