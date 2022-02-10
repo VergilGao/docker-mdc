@@ -60,6 +60,8 @@ RUN apk --update --no-cache add \
 COPY --from=build-stage /tmp/src/dist/Movie_Data_Capture /app
 COPY docker-entrypoint.sh docker-entrypoint.sh
 
-RUN chmod +x docker-entrypoint.sh
+RUN chmod +x docker-entrypoint.sh && mkdir /data
+
+VOLUME /data
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
