@@ -1,6 +1,6 @@
 # Movie Data Capture - Docker
 
-[ghcr.io]](https://github.com/VergilGao/docker-mdc/pkgs/container/mdc) | [dockerhub]](https://hub.docker.com/repository/docker/vergilgao/mdc) 
+[ghcr.io](https://github.com/VergilGao/docker-mdc/pkgs/container/mdc) | [dockerhub](https://hub.docker.com/repository/docker/vergilgao/mdc) 
 
 ![publish](https://github.com/VergilGao/docker-mdc/workflows/publish/badge.svg) [![GitHub license](https://img.shields.io/github/license/VergilGao/docker-mdc)](https://github.com/VergilGao/docker-mdc/blob/master/LICENSE)
 
