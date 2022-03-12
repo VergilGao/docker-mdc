@@ -44,7 +44,7 @@ jobs:
     - name: Build the test image
       run: |
         docker build -t vergilgao/mdc:test \
-          --build-arg VERSION=${{ env.MDC_VERSION }} \
+          --build-arg MDC_VERSION=${{ env.MDC_VERSION }} \
           --build-arg BUILD_DATE=$(date +"%Y-%m-%d") \
           .  
 
