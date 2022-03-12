@@ -1,5 +1,7 @@
 # Movie Data Capture - Docker
 
+[ghcr.io]](https://github.com/VergilGao/docker-mdc/pkgs/container/mdc) | [dockerhub]](https://hub.docker.com/repository/docker/vergilgao/mdc) 
+
 ![publish](https://github.com/VergilGao/docker-mdc/workflows/publish/badge.svg) [![GitHub license](https://img.shields.io/github/license/VergilGao/docker-mdc)](https://github.com/VergilGao/docker-mdc/blob/master/LICENSE)
 
 **数据无价，请谨慎操作！**
@@ -10,16 +12,28 @@
 
 重要的事情说三遍。
 
-`Movie_Data_Capture` 以下简称 `mdc`是一款由[yoshiko2](https://github.com/yoshiko2)使用 `python3`编写的日本AV刮削器。
+`Movie_Data_Capture` 以下简称 `mdc`是一款由[yoshiko2](https://github.com/yoshiko2)使用 `python3`编写的成人影片刮削器。
 
-本镜像能帮助用户在nas中无需安装复杂的 `python3`运行时环境，可以更简单的使用 `mdc`。
+本镜像能帮助用户在nas中无需安装运行时环境，可以更简单的使用 `mdc`。
 
-本镜像从仓库[Movie_Data_Capture](https://github.com/yoshiko2/movie_data_Capture)构建，版本号和源仓库的release版本号统一
+本仓库针对`unraid`系统做出了特别优化，对于`unraid`用户，本镜像的默认配置即可避免权限问题。对于其他nas系统用户，请按照各自的系统权限策略设置`PUID` `PGID` `UMASK`三个环境变量。
+
+本镜像从仓库[Movie_Data_Capture](https://github.com/yoshiko2/movie_data_Capture)构建，因为本人工作较忙，很可能不会及时和上游release同步。
 
 * **注意，因为docker文件系统的特殊性，请仔细阅读以下操作指南后再行使用。**
 * **镜像作者[VergilGao](https://github.com/VergilGao) [yoshiko2](https://github.com/yoshiko2)对使用此镜像导致的文件丢失、损坏均不负责。**
 
 ## 更新日志
+
+20220312:
+
+* 新增自定义配置文件功能，你现在可以使用自己编写的配置文件来运行程序了！请映射 `mdc.ini` 文件至 `/config/mdc.ini` 目录，程序会自动判断是否存在配置文件。如果配置文件存在，环境变量的设置及修改将会**不起作用**，这意味着如果使用环境变量启动，程序只会应用**首次**启动容器时的环境变量，反复启动程序时，新修改的环境变量将**不起作用**。如果你的容器不是一次性的，请使用映射mdc.ini文件的方式启动。
+* 新增环境变量`TZ`，默认值为`Asia/Shanghai`，这将设置容器内的时间区域。
+* 新增环境变量`UMASK`，修改`PUID`和`PGID`的默认值，目前的默认值为`PUID=99, PGID=100 UMASK=000`，此为`UNRAID`系统用户的推荐配置，其他系统仍然需要自行修改以防止出现权限问题。
+* 删除`s6-overlay`驱动，权限问题将通过`su`命令解决，因此，本镜像的`PUID`和`PGID`环境变量事实上等同于`UID`和`GID`，为了保持兼容性，环境变量名不再修改。
+* 新增ghcr.io镜像仓库，此仓库只有`vergilgao/mdc`，同时dockerhub镜像仓库将继续保持`vergilgao/avdc`和`vergilgao/mdc`两个地址的更新。
+* 提升tag丰富度，将上游版本号按{major}.{minor}.{build}拆分更新，同时新增一个定义为`{version}-r{release_count}`的tag，用于标识同一个上游release下docker版本的更新次数。
+* 新增夜间构建tag，只会推送到`vergilgao/mdc`和`ghcr.io/vergilgao/mdc`，此tag将保持每周一次的更新频率，并不保证会更新至最新源码。
 
 20220209：
 
@@ -32,7 +46,7 @@
 首先你可以测试一下程序是否可用。
 
 ```sh
-docker pull vergilgao/mdc:latest
+docker pull ghcr.io/vergilgao/mdc:latest
 mkdir test
 dd if=/dev/zero of="./test/MIFD-046.mp4" bs=250MB count=1
 docker run --rm --name mdc_test -it -v ${PWD}/test:/data -e PUID=$(stat -c %u test) -e PGID=$(stat -c %g test) vergilgao/mdc:latest
@@ -60,10 +74,38 @@ docker run --rm --name mdc_test -it -v ${PWD}/test:/data -e PUID=$(stat -c %u te
 rm -rf test
 ```
 
-## 自定义配置
+## docker环境变量
 
-与源程序不同，本镜像使用运行时的环境变量来完成自定义配置。
 本镜像增加了权限设置功能，你可以通过使用 PUID (用户id) PGID (组id) 两个环境变量来配置程序运行后所有文件的权限。
+
+| 字段名    | 值语义             | 预设值         |
+| :--------| :----------------- | :------------- |
+| PUID     | uid                | 99             |
+| PGID     | gid                | 100            |
+| UMASK    | data目录的umask    | 000            |
+| TZ       | 容器内时间区域      | Asia/Shanghai  |
+
+## 程序运行时配置
+
+### 映射mdc.ini文件（推荐）
+
+假设你的mdc.ini文件存放在当前目录的config子目录下。
+
+```sh
+docker run --rm -it \
+  --name mdc_test \
+  -v ${PWD}/test:/data \
+  -v ${PWD}/config:/config \
+  -e PUID=1000
+  -e PGID=1000
+  vergilgao/mdc:latest
+```
+
+### 环境变量配置（过时）
+
+当没有映射mdc.ini文件时，本镜像也可以使用运行时的环境变量来完成自定义配置。
+注意如果配置文件存在，环境变量的设置及修改将会**不起作用**，这意味着如果使用环境变量启动，程序只会应用**首次**启动容器时的环境变量，反复启动程序时，新修改的环境变量将**不起作用**。如果你的容器不是一次性的，请使用映射mdc.ini文件的方式启动。
+
 
 ```sh
 docker run --rm -it \
@@ -79,12 +121,10 @@ docker run --rm -it \
 
 注意，尽量将环境变量值包含在 `""`内，同时请勿再在环境变量中使用 `""`。
 
-环境变量字段和原程序 `config.ini`文件的字段对应关系如下。
+环境变量字段和原程序 `mdc.ini`文件的字段对应关系如下。
 
 | 字段名                       | 原 ini 文件字段              | 值语义                           | 预设值                                               |
 | :--------------------------- | :--------------------------- | :------------------------------- | :--------------------------------------------------- |
-| PUID                         | -                            | 生成文件的用户id                 | 666                                                  |
-| PGID                         | -                            | 生成文件的组id                   | 666                                                  |
 | MAIN_MODE                    | main_mode                    | 运行模式                         | 1                                                    |
 | SOURCE_FOLDER                | source_folder                | 原影片输入目录                   | ./                                                   |
 | FAILED_OUTPUT                | failed_output_folder         | 失败输出目录                     | failed                                               |
@@ -126,6 +166,11 @@ docker run --rm -it \
 | JAVDB_SITES                  | sites                        | javdb域名后缀                    | 33,34                                                |
 
 注：水印位置定义，左上 0, 右上 1, 右下 2， 左下 3
+
+## 夜间构建版本
+
+本仓库每周一次使用当时的最新上游源码构建，tag为nightly，你可以选择拉取`vergilgao/mdc:nightly`和`ghcr.io/vergilgao/mdc:nightly`进行测试，
+注意此tag仅用于测试，并不保证会更新至最新源码，更不保证功能的稳定性。
 
 ## 构建（开发人员）
 

@@ -14,10 +14,17 @@ jobs:
         - name: Checkout
           uses: actions/checkout@v2
 
-        - name: Sync
+        - name: sync vergilgao/mdc
           uses: ms-jpq/sync-dockerhub-readme@v1
           with:
-            username: ${{ secrets.DOCKERHUB_USERNAME }}
+            username: vergilgao
+            password: ${{ secrets.DOCKERHUB_TOKEN }}
+            repository: vergilgao/mdc
+            readme: README.md
+        - name: sync vergilgao/avdc
+          uses: ms-jpq/sync-dockerhub-readme@v1
+          with:
+            username: vergilgao
             password: ${{ secrets.DOCKERHUB_TOKEN }}
             repository: vergilgao/avdc
             readme: README.md

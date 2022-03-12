@@ -42,8 +42,8 @@ CC_CONVERT_MODE=${CC_CONVERT_MODE:-"1"}
 CC_CONVERT_VARS=${CC_CONVERT_VARS:-"outline,series,studio,tag,title"}
 JAVDB_SITES=${JAVDB_SITES:-"33,34"}
 
-mk_config() {
-    cat>/root/mdc.ini<<EOF
+create_config() {
+    cat>"${1}"<<EOF
 [common]
 main_mode=${MAIN_MODE}
 source_folder=${SOURCE_FOLDER}
@@ -125,19 +125,30 @@ EOF
 
 run_mdc() {
     cd /data
-    s6-setuidgid alpha \
-      /app/Movie_Data_Capture
+    /app/Movie_Data_Capture
 }
 
-PUID=${PUID:-666}
-PGID=${PGID:-666}
+config_file="/config/mdc.ini"
 
-groupmod -o -g "$PGID" alpha
-usermod -o -u "$PUID" alpha
+echo "Setup Timezone to ${TZ}"
+echo "${TZ}" > /etc/timezone
+echo "Checking if UID: ${UID} matches user"
+usermod -u ${UID} alpha
+echo "Checking if GID: ${GID} matches user"
+usermod -g ${GID} alpha
+echo "Setting umask to ${UMASK}"
+umask ${UMASK}
 
+echo "Checking if config file exist"
 
-mk_config
-chown -R alpha:alpha /root
-chown alpha:alpha /app
-chown -R alpha:alpha /data
-run_mdc
+if [ ! -f "${config_file}" ]; then
+    create_config "${config_file}"
+fi
+
+echo "Starting..."
+
+chown -R ${UID}:${GID} /data
+chown -R ${UID}:${GID} /config
+chown -R ${UID}:${GID} /app
+
+su -c run_mdc alpha
