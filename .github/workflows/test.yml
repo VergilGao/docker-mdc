@@ -8,6 +8,7 @@ on:
       - "*.md"
       - ".github/workflows/sync-readme.yml"
       - ".github/workflows/release.yml"
+      - ".github/workflows/nightly-build.yml"
       - "LICENSE"
   pull_request:
     paths-ignore:

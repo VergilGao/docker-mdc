@@ -90,6 +90,7 @@ RUN chmod +x docker-entrypoint.sh && \
     chown -R alpha /data
 
 COPY --from=build-stage /tmp/src/dist/Movie_Data_Capture /app
+#nightly COPY --from=build-stage /tmp/src/config.ini /config/mdc.ini
 
 VOLUME [ "/data", "/config" ]
 

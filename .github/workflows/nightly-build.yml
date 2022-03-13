@@ -38,6 +38,10 @@ jobs:
         username: vergilgao
         password: ${{ secrets.GHCR_TOKEN }}
 
+    - name: enable nightly command in dockerfile 
+      run: |
+        sed -i 's/#nightly //' Dockerfile
+
     - name: Build and push
       id: docker_build
       uses: docker/build-push-action@v2

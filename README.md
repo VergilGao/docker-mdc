@@ -169,8 +169,8 @@ docker run --rm -it \
 
 ## 夜间构建版本
 
-本仓库每周一次使用当时的最新上游源码构建，tag为nightly，你可以选择拉取`vergilgao/mdc:nightly`和`ghcr.io/vergilgao/mdc:nightly`进行测试，
-注意此tag仅用于测试，并不保证会更新至最新源码，更不保证功能的稳定性。
+本仓库每周一次使用当时的最新上游源码构建，tag为nightly，你可以选择拉取`vergilgao/mdc:nightly`和`ghcr.io/vergilgao/mdc:nightly`进行测试，注意此tag仅用于测试，并不保证会更新至最新源码，更不保证功能的稳定性。
+此外，由于配置文件兼容性问题，默认情况下，夜间构建版本会忽略传入的配置文件环境变量，使用夜间构建版本强烈建议自行映射配置文件。
 
 ## 构建（开发人员）
 
