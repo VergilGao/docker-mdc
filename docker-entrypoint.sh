@@ -52,7 +52,7 @@ success_output_folder=${SUCCESS_OUTPUT}
 soft_link=${SOFT_LINK}
 failed_move=${FAILED_MOVE}
 auto_exit=1
-transalte_to_sc=${TRANSLATE}
+translate_to_sc=${TRANSLATE}
 multi_threading=${MULTI_THREAD}
 del_empty_folder=${DEL_EMPTY_FOLDER}
 actor_gender=female
@@ -81,9 +81,17 @@ literals=${ESCAPE_LITERALS}
 folders=${ESCAPE_FOLDERS}
 [debug_mode]
 switch=${DEBUG}
-[transalte]
+; 机器翻译
+[translate]
 switch=0
+;可选项 google-free,azure
+engine=google-free
+; azure翻译密钥
+key=
+; 翻译延迟
+delay=1
 values=title,outline
+service_site=translate.google.cn
 ; 预告片
 [trailer]
 switch=0
@@ -120,6 +128,12 @@ mode=${CC_CONVERT_MODE}
 vars=${CC_CONVERT_VARS}
 [javdb]
 sites=${JAVDB_SITES}
+
+; 人脸识别 hog:方向梯度直方图(不太准确，速度快) cnn:深度学习模型(准确，需要GPU/CUDA,速度慢)
+[face]
+locations_model=hog
+
+
 EOF
 }
 
