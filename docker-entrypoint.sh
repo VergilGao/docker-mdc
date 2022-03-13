@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /bin/sh
 
 MAIN_MODE=${MAIN_MODE:-"1"}
 SOURCE_FOLDER=${SOURCE_FOLDER:-"./"}
@@ -123,12 +123,9 @@ sites=${JAVDB_SITES}
 EOF
 }
 
-run_mdc() {
-    cd /data
-    /app/Movie_Data_Capture
-}
-
 config_file="/config/mdc.ini"
+UID=${PUID}
+GID=${PGID}
 
 echo "Setup Timezone to ${TZ}"
 echo "${TZ}" > /etc/timezone
@@ -151,4 +148,4 @@ chown -R ${UID}:${GID} /data
 chown -R ${UID}:${GID} /config
 chown -R ${UID}:${GID} /app
 
-su -c run_mdc alpha
+su -c "cd /data && /app/Movie_Data_Capture" alpha

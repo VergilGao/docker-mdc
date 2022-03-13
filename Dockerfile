@@ -1,4 +1,4 @@
-FROM python:3.8-alpine as build-stage
+FROM python:3.8-alpine3.15 as build-stage
 
 ARG PYINSTALLER_TAG
 ENV PYINSTALLER_TAG ${PYINSTALLER_TAG:-"v4.8"}
@@ -15,6 +15,8 @@ RUN apk --update --no-cache add \
     gcc \
     g++ \
     git \
+    make \
+    cmake \
     pwgen \
     jpeg-dev \
     # Pillow depenencies
@@ -53,10 +55,13 @@ RUN \
         --hidden-import core.py \
         --add-data "Img:Img" \
         --add-data "$(python -c 'import cloudscraper as _; print(_.__path__[0])' | tail -n 1):cloudscraper" \
-        --add-data "$(python -c 'import opencc as _; print(_.__path__[0])' | tail -n 1):opencc"
+        --add-data "$(python -c 'import opencc as _; print(_.__path__[0])' | tail -n 1):opencc" \
+        --add-data "$(python -c 'import face_recognition_models as _; print(_.__path__[0])' | tail -n 1):face_recognition_models"
 
 FROM alpine:3.15
 RUN apk --update --no-cache add \
+    ca-certificates \
+    coreutils \
     libxcb \
     shadow \
     tzdata
@@ -74,15 +79,17 @@ ENV PUID=99
 ENV PGID=100
 ENV UMASK=000
 
-COPY --from=build-stage /tmp/src/dist/Movie_Data_Capture /app
 ADD docker-entrypoint.sh docker-entrypoint.sh
 
 RUN chmod +x docker-entrypoint.sh && \
+    mkdir /app && \
     mkdir -p /data && \
     mkdir -p /config && \
     useradd -d /config -s /bin/sh alpha && \
     chown -R alpha /config && \
     chown -R alpha /data
+
+COPY --from=build-stage /tmp/src/dist/Movie_Data_Capture /app
 
 VOLUME [ "/data", "/config" ]
 

@@ -1,6 +1,6 @@
 # Movie Data Capture - Docker
 
-[ghcr.io](https://github.com/VergilGao/docker-mdc/pkgs/container/mdc) | [dockerhub](https://hub.docker.com/repository/docker/vergilgao/mdc) 
+[github](https://github.com/VergilGao/docker-mdc) [![GitHub stars](https://img.shields.io/github/stars/VergilGao/docker-mdc)](https://github.com/VergilGao/docker-mdc/stargazers) | [dockerhub](https://hub.docker.com/repository/docker/vergilgao/mdc) 
 
 ![publish](https://github.com/VergilGao/docker-mdc/workflows/publish/badge.svg) [![GitHub license](https://img.shields.io/github/license/VergilGao/docker-mdc)](https://github.com/VergilGao/docker-mdc/blob/master/LICENSE)
 
@@ -31,8 +31,8 @@
 * 新增环境变量`TZ`，默认值为`Asia/Shanghai`，这将设置容器内的时间区域。
 * 新增环境变量`UMASK`，修改`PUID`和`PGID`的默认值，目前的默认值为`PUID=99, PGID=100 UMASK=000`，此为`UNRAID`系统用户的推荐配置，其他系统仍然需要自行修改以防止出现权限问题。
 * 删除`s6-overlay`驱动，权限问题将通过`su`命令解决，因此，本镜像的`PUID`和`PGID`环境变量事实上等同于`UID`和`GID`，为了保持兼容性，环境变量名不再修改。
-* 新增ghcr.io镜像仓库，此仓库只有`vergilgao/mdc`，同时dockerhub镜像仓库将继续保持`vergilgao/avdc`和`vergilgao/mdc`两个地址的更新。
-* 提升tag丰富度，将上游版本号按{major}.{minor}.{build}拆分更新，同时新增一个定义为`{version}-r{release_count}`的tag，用于标识同一个上游release下docker版本的更新次数。
+* 新增[ghcr.io](https://github.com/VergilGao/docker-mdc/pkgs/container/mdc)镜像仓库，此仓库只有`vergilgao/mdc`，同时dockerhub镜像仓库将继续保持`vergilgao/avdc`和`vergilgao/mdc`两个地址的更新。
+* 提升tag丰富度，将上游版本号按`{major}.{minor}.{build}`拆分更新，同时新增一个定义为`{version}-r{release_count}`的tag，用于标识同一个上游release下docker版本的更新次数。
 * 新增夜间构建tag，只会推送到`vergilgao/mdc`和`ghcr.io/vergilgao/mdc`，此tag将保持每周一次的更新频率，并不保证会更新至最新源码。
 
 20220209：
