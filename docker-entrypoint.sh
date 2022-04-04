@@ -146,7 +146,7 @@ echo "${TZ}" > /etc/timezone
 echo "Checking if UID: ${UID} matches user"
 usermod -u ${UID} alpha
 echo "Checking if GID: ${GID} matches user"
-usermod -g ${GID} alpha
+groupmod -g ${GID} alpha
 echo "Setting umask to ${UMASK}"
 umask ${UMASK}
 
