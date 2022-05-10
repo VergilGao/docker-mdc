@@ -8,7 +8,6 @@ on:
       - "*.md"
       - ".github/workflows/sync-readme.yml"
       - ".github/workflows/release.yml"
-      - ".github/workflows/nightly-build.yml"
       - "LICENSE"
   pull_request:
     paths-ignore:
@@ -27,10 +26,6 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-
-    - name: Get mdc version
-      run: |
-        echo "MDC_VERSION=$(cat VERSION)" >> $GITHUB_ENV
     
     - name: Create Test User and test files
       run: |
@@ -45,7 +40,6 @@ jobs:
     - name: Build the test image
       run: |
         docker build -t vergilgao/mdc:test \
-          --build-arg MDC_VERSION=${{ env.MDC_VERSION }} \
           --build-arg BUILD_DATE=$(date +"%Y-%m-%d") \
           .  
 
@@ -53,8 +47,6 @@ jobs:
       if: success()
       run: |
         docker run \
-          -e SUCCESS_OUTPUT="test_output" \
-          -e DEBUG=1 \
           -e PUID=1024 \
           -e PGID=1024 \
           -v ${PWD}/test:/data \
