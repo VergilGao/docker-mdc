@@ -25,6 +25,12 @@ if [ ! -f "${config_file}" ]; then
     cp /app/config.template "${config_file}"
 fi
 
+echo "Download Mapping Table"
+mkdir -p /config/.local/share/mdc && cd /config/.local/share/mdc
+wget https://raw.githubusercontent.com/yoshiko2/Movie_Data_Capture/master/MappingTable/mapping_actor.xml || true
+wget https://raw.githubusercontent.com/yoshiko2/Movie_Data_Capture/master/MappingTable/mapping_info.xml || true
+wget https://raw.githubusercontent.com/yoshiko2/Movie_Data_Capture/master/MappingTable/c_number.json || true
+
 echo "Starting..."
 cd /data
 gosu ${USER} /app/Movie_Data_Capture

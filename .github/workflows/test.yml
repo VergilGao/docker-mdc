@@ -47,8 +47,8 @@ jobs:
       if: success()
       run: |
         docker run \
-          -e PUID=1024 \
-          -e PGID=1024 \
+          -e UID=1024 \
+          -e GID=1024 \
           -v ${PWD}/test:/data \
           vergilgao/mdc:test
         find . -name MIFD-046.mp4
