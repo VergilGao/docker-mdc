@@ -1,6 +1,6 @@
 # Movie Data Capture - Docker
 
-[github](https://github.com/VergilGao/docker-mdc) [![GitHub stars](https://img.shields.io/github/stars/VergilGao/docker-mdc)](https://github.com/VergilGao/docker-mdc/stargazers) | [dockerhub](https://hub.docker.com/repository/docker/vergilgao/mdc) 
+[github](https://github.com/VergilGao/docker-mdc) [![GitHub stars](https://img.shields.io/github/stars/VergilGao/docker-mdc)](https://github.com/VergilGao/docker-mdc/stargazers) | [dockerhub](https://hub.docker.com/repository/docker/vergilgao/mdc)
 
 ![publish](https://github.com/VergilGao/docker-mdc/workflows/publish/badge.svg) [![GitHub license](https://img.shields.io/github/license/VergilGao/docker-mdc)](https://github.com/VergilGao/docker-mdc/blob/master/LICENSE)
 
@@ -16,7 +16,7 @@
 
 本镜像能帮助用户在nas中无需安装运行时环境，可以更简单的使用 `mdc`。
 
-本仓库针对`unraid`系统做出了特别优化，对于`unraid`用户，本镜像的默认配置即可避免权限问题。对于其他nas系统用户，请按照各自的系统权限策略设置`PUID` `PGID` `UMASK`三个环境变量。
+本仓库针对 `unraid`系统做出了特别优化，对于 `unraid`用户，本镜像的默认配置即可避免权限问题。对于其他nas系统用户，请按照各自的系统权限策略设置 `UID` `GID` `UMASK`三个环境变量。
 
 本镜像从仓库[Movie_Data_Capture](https://github.com/yoshiko2/movie_data_Capture)构建，因为本人工作较忙，很可能不会及时和上游release同步。
 
@@ -25,15 +25,22 @@
 
 ## 更新日志
 
+20220526:
+
+* 更新至上游6.2.1版本
+* 通过环境变量启动程序的方法已经废弃，程序将在启动时检测是否存在配置文件，如果不存在，将会在config映射目录下创建，并且退出。请修改配置文件后再次启动程序。**Breaking Change!**
+* 环境变量`PUID`,`PGID`已经修改为`UID` `GID`**Breaking Change!**
+* `UMASK`的默认值改为`002`**Breaking Change!**
+
 20220312:
 
 * 新增自定义配置文件功能，你现在可以使用自己编写的配置文件来运行程序了！请映射 `mdc.ini` 文件至 `/config/mdc.ini` 目录，程序会自动判断是否存在配置文件。如果配置文件存在，环境变量的设置及修改将会**不起作用**，这意味着如果使用环境变量启动，程序只会应用**首次**启动容器时的环境变量，反复启动程序时，新修改的环境变量将**不起作用**。如果你的容器不是一次性的，请使用映射mdc.ini文件的方式启动。
-* 新增环境变量`TZ`，默认值为`Asia/Shanghai`，这将设置容器内的时间区域。
-* 新增环境变量`UMASK`，修改`PUID`和`PGID`的默认值，目前的默认值为`PUID=99, PGID=100 UMASK=000`，此为`UNRAID`系统用户的推荐配置，其他系统仍然需要自行修改以防止出现权限问题。
-* 删除`s6-overlay`驱动，权限问题将通过`su`命令解决，因此，本镜像的`PUID`和`PGID`环境变量事实上等同于`UID`和`GID`，为了保持兼容性，环境变量名不再修改。
-* 新增[ghcr.io](https://github.com/VergilGao/docker-mdc/pkgs/container/mdc)镜像仓库，此仓库只有`vergilgao/mdc`，同时dockerhub镜像仓库将继续保持`vergilgao/avdc`和`vergilgao/mdc`两个地址的更新。
-* 提升tag丰富度，将上游版本号按`{major}.{minor}.{build}`拆分更新，同时新增一个定义为`{version}-r{release_count}`的tag，用于标识同一个上游release下docker版本的更新次数。
-* 新增夜间构建tag，只会推送到`vergilgao/mdc`和`ghcr.io/vergilgao/mdc`，此tag将保持每周一次的更新频率，并不保证会更新至最新源码。
+* 新增环境变量 `TZ`，默认值为 `Asia/Shanghai`，这将设置容器内的时间区域。
+* 新增环境变量 `UMASK`，修改 `PUID`和 `PGID`的默认值，目前的默认值为 `PUID=99, PGID=100 UMASK=000`，此为 `UNRAID`系统用户的推荐配置，其他系统仍然需要自行修改以防止出现权限问题。
+* 删除 `s6-overlay`驱动，权限问题将通过 `su`命令解决，因此，本镜像的 `PUID`和 `PGID`环境变量事实上等同于 `UID`和 `GID`，为了保持兼容性，环境变量名不再修改。
+* 新增[ghcr.io](https://github.com/VergilGao/docker-mdc/pkgs/container/mdc)镜像仓库，此仓库只有 `vergilgao/mdc`，同时dockerhub镜像仓库将继续保持 `vergilgao/avdc`和 `vergilgao/mdc`两个地址的更新。
+* 提升tag丰富度，将上游版本号按 `{major}.{minor}.{build}`拆分更新，同时新增一个定义为 `{version}-r{release_count}`的tag，用于标识同一个上游release下docker版本的更新次数。
+* 新增夜间构建tag，只会推送到 `vergilgao/mdc`和 `ghcr.io/vergilgao/mdc`，此tag将保持每周一次的更新频率，并不保证会更新至最新源码。
 
 20220209：
 
@@ -49,23 +56,46 @@
 docker pull ghcr.io/vergilgao/mdc:latest
 mkdir test
 dd if=/dev/zero of="./test/MIFD-046.mp4" bs=250MB count=1
-docker run --rm --name mdc_test -it -v ${PWD}/test:/data -e PUID=$(stat -c %u test) -e PGID=$(stat -c %g test) vergilgao/mdc:latest
+docker run --rm --name mdc_test -it -v ${PWD}/test:/data -v ${PWD}/config:/config -e UID=$(stat -c %u test) -e GID=$(stat -c %g test) vergilgao/mdc:latest
 ```
 
 然后你会看到如下输出：
 
 ```sh
-[*]================ Movie Data Capture ==================
-[*]                    Version 6.0.1
+---Setup Timezone to Asia/Shanghai---
+---Checking if UID: 1000 matches user---
+usermod: no changes
+---Checking if GID: 1000 matches user---
+usermod: no changes
+---Setting umask to 002---
+---Taking ownership of data...---
+Checking if config file exist
+Starting...
+[*]================= Movie Data Capture =================
+[*]                        6.2.1
 [*]======================================================
-[+]Find 1 movies
-[!] - 100.% [1/1] -
-[!]Making Data for [./data/MIFD-046.mp4], the number is [MIFD-046]
-[+]Image Downloaded! data/JAV_output/御坂りあ/MIFD-046/MIFD-046-fanart.jpg
-[+]Image Cutted!     data/JAV_output/御坂りあ/MIFD-046/MIFD-046-poster.jpg
-[+]Wrote!            data/JAV_output/御坂りあ/MIFD-046/MIFD-046.nfo
+[*] - Linux-5.4.0-110-generic-x86_64-with
+[*] - x86_64 - Python-3.9.13
 [*]======================================================
+[*] - 严禁在墙内宣传本项目 -
+[*]======================================================
+[+]Start at 2022-05-26 15:12:30
+[+]Load Config file '/config/mdc.ini'.
+[+]Main Working mode ## 1: Scraping ## , nfo_skip_days=30
+[+]Find 1 movies.
+[*]======================================================
+[!]                - 100.% [1/1] -             15:12:31
+[!] [MIFD-046] As Number Processing for '/data/御坂りあ/MIFD-046/MIFD-046.mp4'
+[+]Find movie [MIFD-046] metadata on website 'javbus'
+[+]Image Downloaded! MIFD-046-fanart.jpg
+[+]Image Cutted!     MIFD-046-poster.jpg
+[+]Wrote!            JAV_output/御坂りあ/MIFD-046/MIFD-046.nfo
+[*]======================================================
+[+]Deleting empty folder /data/JAV_output/御坂りあ/MIFD-046/extrafanart
+[+]Deleting empty folder /data/failed
+[+]Running time 0:00:17.748  End at 2022-05-26 15:12:47
 [+]All finished!!!
+Log file '/config/.mlogs/mdc_20220526T151229.txt' saved.
 ```
 
 确认程序没有问题后把测试数据删掉就好了。
@@ -76,18 +106,18 @@ rm -rf test
 
 ## docker环境变量
 
-本镜像增加了权限设置功能，你可以通过使用 PUID (用户id) PGID (组id) 两个环境变量来配置程序运行后所有文件的权限。
+本镜像增加了权限设置功能，你可以通过使用 UID (用户id) GID (组id) 两个环境变量来配置程序运行后所有文件的权限。
 
-| 字段名    | 值语义             | 预设值         |
-| :--------| :----------------- | :------------- |
-| PUID     | uid                | 99             |
-| PGID     | gid                | 100            |
-| UMASK    | data目录的umask    | 000            |
-| TZ       | 容器内时间区域      | Asia/Shanghai  |
+| 字段名 | 值语义          | 预设值        |
+| :----- | :-------------- | :------------ |
+| UID    | uid             | 99            |
+| GID    | gid             | 100           |
+| UMASK  | data目录的umask | 002           |
+| TZ     | 容器内时间区域  | Asia/Shanghai |
 
 ## 程序运行时配置
 
-### 映射mdc.ini文件（推荐）
+### 映射mdc.ini文件
 
 假设你的mdc.ini文件存放在当前目录的config子目录下。
 
@@ -101,78 +131,16 @@ docker run --rm -it \
   vergilgao/mdc:latest
 ```
 
-### 环境变量配置（过时）
+程序将在启动时检测是否存在配置文件，如果不存在，将会在config映射目录下创建，并且退出。请修改配置文件后再次启动程序。
 
-当没有映射mdc.ini文件时，本镜像也可以使用运行时的环境变量来完成自定义配置。
-注意如果配置文件存在，环境变量的设置及修改将会**不起作用**，这意味着如果使用环境变量启动，程序只会应用**首次**启动容器时的环境变量，反复启动程序时，新修改的环境变量将**不起作用**。如果你的容器不是一次性的，请使用映射mdc.ini文件的方式启动。
+### 环境变量配置（已废弃）
 
+## 夜间构建版本（已暂停）
 
-```sh
-docker run --rm -it \
-  --name mdc_test \
-  -v ${PWD}/test:/data \
-  -e PUID=1000
-  -e PGID=1000
-  -e USE_PROXY=1 \
-  -e PROXY_TYPE="socks5" \
-  -e PROXY_URI="127.0.0.1:1080" \
-  vergilgao/mdc:latest
-```
-
-注意，尽量将环境变量值包含在 `""`内，同时请勿再在环境变量中使用 `""`。
-
-环境变量字段和原程序 `mdc.ini`文件的字段对应关系如下。
-
-| 字段名                       | 原 ini 文件字段              | 值语义                           | 预设值                                               |
-| :--------------------------- | :--------------------------- | :------------------------------- | :--------------------------------------------------- |
-| MAIN_MODE                    | main_mode                    | 运行模式                         | 1                                                    |
-| SOURCE_FOLDER                | source_folder                | 原影片输入目录                   | ./                                                   |
-| FAILED_OUTPUT                | failed_output_folder         | 失败输出目录                     | failed                                               |
-| SUCCESS_OUTPUT               | success_output_folder        | 成功输出目录                     | output                                               |
-| SOFT_LINK                    | soft_link                    | 软连接模式                       | 0                                                    |
-| FAILED_MOVE                  | failed_move                  | 移动失败刮削文件至失败输出文件夹 | 1                                                    |
-| TRANSLATE                    | translate_to_sc              | 翻译至简体中文                   | 1                                                    |
-| MULTI_THREAD                 | multi_threading              | 多线程刮削                       | 1                                                    |
-| USE_PROXY                    | switch                       | 开启代理                         | 0                                                    |
-| PROXY_TYPE                   | type                         | 代理类型                         | socket5                                              |
-| PROXY_URI                    | proxy                        | 代理地址                         | ""                                                   |
-| CACERT_FILE                  | cacert_file                  | 证书文件                         | ""                                                   |
-| TIMEOUT                      | timeout                      | 刮削超时时间/秒                  | 5                                                    |
-| RETRY                        | retry                        | 重试次数                         | 3                                                    |
-| NFO_SKIP_DAYS                | nfo_skip_days                | NFO过期时间/天                   | 30                                                   |
-| STOP_COUNTER                 | stop_counter                 | 文件刮削失败站点封禁阈值         | 0                                                    |
-| IGNORE_FAILED_LIST           | ignore_failed_list           | 刮削失败文件开关                 | 0                                                    |
-| DOWNLOAD_ONLY_MISSING_IMAGES | download_only_missing_images | 下载已刮削影片缺失信息           | 1                                                    |
-| MAPPING_TABLE_VALIDITY       | mapping_table_validity       | 对照表重下载阈值/天              | 7                                                    |
-| LOCATION_RULE                | location_rule                | 文件目录命名规则                 | "actor+'/'+number"                                   |
-| NAMING_RULE                  | naming_rule                  | nfo文件中影片命名规则            | "number+'-'+title"                                   |
-| MAX_TITLE_LEN                | max_title_len                | 最大标题长度                     | 50                                                   |
-| PRIORITY_WEBSITE             | website                      | 刮削数据网站                     | 与源仓库相同                                         |
-| ESCAPE_FOLDERS               | folders                      | 排除目录                         | FAILED_OUTPUT,SUCCESS_OUTPUT                         |
-| ESCAPE_LITERALS              | literals                     | 去除文件名中的特殊符号           | "\()/"                                               |
-| WATERMARK                    | switch                       | 水印开关                         | 0                                                    |
-| WATERMARK_POSITION           | water                        | 水印位置                         | 2                                                    |
-| EXTRAFANART                  | switch                       | 剧照开关                         | 0                                                    |
-| EXTRAFANART_FOLDER           | extrafanart_folder           | 剧照文件夹                       | extrafanart                                          |
-| DEBUG                        | switch                       | 测试输出                         | 0                                                    |
-| STORYLINE_SWITCH             | switch                       | 剧情简介抓取开关                 | 1                                                    |
-| STORYLINE_SITE               | site                         | 剧情简介站点                     | 1:avno1,4:airavwiki                                  |
-| STORYLINE_CENSORED_SITE      | censored_site                | 剧情简介站点（有码）             | 2:airav,5:xcity,6:amazon                             |
-| STORYLINE_UNCENSORED_SITE    | uncensored_site              | 剧情简介站点（无码）             | 3:58avgo                                             |
-| STORYLINE_RUN_MODE           | run_mode                     | 运行模式                         | 1                                                    |
-| STORYLINE_SHOW_RESULT        | show_result                  | 剧情简介调试信息                 | 0                                                    |
-| CC_CONVERT_MODE              | mode                         | 繁简转换开关                     | 1                                                    |
-| CC_CONVERT_VARS              | vars                         | 需转换的元数据                   | actor,director,label,outline,series,studio,tag,title |
-| JAVDB_SITES                  | sites                        | javdb域名后缀                    | 33,34                                                |
-
-注：水印位置定义，左上 0, 右上 1, 右下 2， 左下 3
-
-## 夜间构建版本
-
-本仓库每周一次使用当时的最新上游源码构建，tag为nightly，你可以选择拉取`vergilgao/mdc:nightly`和`ghcr.io/vergilgao/mdc:nightly`进行测试，注意此tag仅用于测试，并不保证会更新至最新源码，更不保证功能的稳定性。
+本仓库每周一次使用当时的最新上游源码构建，tag为nightly，你可以选择拉取 `vergilgao/mdc:nightly`和 `ghcr.io/vergilgao/mdc:nightly`进行测试，注意此tag仅用于测试，并不保证会更新至最新源码，更不保证功能的稳定性。
 此外，由于配置文件兼容性问题，默认情况下，夜间构建版本会忽略传入的配置文件环境变量，使用夜间构建版本强烈建议自行映射配置文件。
 
-## 构建（开发人员）
+## 构建（开发人员，构建方式已经发生变化，等待补充修改）
 
 ```sh
 cd docker-mdc
@@ -180,7 +148,7 @@ docker build -t mdc --build-arg MDC_VERSION="6.0.1" ./
 
 mkdir test
 dd if=/dev/zero of="./test/MIFD-046.mp4" bs=250MB count=1
-docker run --rm --name mdc_test -it -v ${PWD}/test:/data -e PUID=$(stat -c %u test) -e PGID=$(stat -c %g test) vergilgao/mdc:latest
+docker run --rm --name mdc_test -it -v ${PWD}/test:/data -e UID=$(stat -c %u test) -e GID=$(stat -c %g test) vergilgao/mdc:latest
 ```
 
 ## 申明

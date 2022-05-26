@@ -23,6 +23,9 @@ chown -R ${UID}:${GID} /app /data /config
 echo "Checking if config file exist"
 if [ ! -f "${config_file}" ]; then
     cp /app/config.template "${config_file}"
+    echo "config file missing, we create a new config file, modify the config file and restart container please!"
+    echo "没有找到配置文件，我们创建了一个新的配置文件，请修改后重启镜像"
+    exist 1
 fi
 
 echo "Download Mapping Table"
