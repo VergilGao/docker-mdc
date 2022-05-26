@@ -4,7 +4,8 @@ FROM ghcr.io/vergilgao/mdc-buildimage:dev as build-stage
 ARG MDC_SOURCE_VERSION
 ENV MDC_SOURCE_VERSION=${MDC_SOURCE_VERSION:-c319d78888fec507cdc8aa468d96f37bb06e569b}
 
-RUN wget -O- https://github.com/yoshiko2/Movie_Data_Capture/archive/$MDC_SOURCE_VERSION.tar.gz | tar xz -C /tmp/mdc --strip-components 1
+RUN mkdir -p /tmp/mdc && \
+    wget -O- https://github.com/yoshiko2/Movie_Data_Capture/archive/$MDC_SOURCE_VERSION.tar.gz | tar xz -C /tmp/mdc --strip-components 1
 
 # build mdc
 RUN cd /tmp/mdc && \
