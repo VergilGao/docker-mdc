@@ -47,13 +47,19 @@ jobs:
       if: success()
       run: |
         docker run \
+          --rm \
+          --name=mdc_test \
           -e UID=1024 \
           -e GID=1024 \
+          -v ${PWD}/config:/config \
           -v ${PWD}/test:/data \
           vergilgao/mdc:test || true
         docker run \
+          --rm \
+          --name=mdc_test \
           -e UID=1024 \
           -e GID=1024 \
+          -v ${PWD}/config:/config \
           -v ${PWD}/test:/data \
           vergilgao/mdc:test
         find . -name MIFD-046.mp4
