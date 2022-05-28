@@ -11,8 +11,7 @@ RUN mkdir -p /tmp/mdc && cd /tmp/mdc && \
     # build mdc
     /pyinstaller/pyinstaller.sh \
         --onefile Movie_Data_Capture.py \
-        --hidden-import ADC_function.py \
-        --hidden-import core.py \
+        --hidden-import "ImageProcessing.cnn" \
         --add-data "Img:Img" \
         --add-data "$(python -c 'import cloudscraper as _; print(_.__path__[0])' | tail -n 1):cloudscraper" \
         --add-data "$(python -c 'import opencc as _; print(_.__path__[0])' | tail -n 1):opencc" \
