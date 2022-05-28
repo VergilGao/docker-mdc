@@ -22,6 +22,7 @@
 
 * **注意，因为docker文件系统的特殊性，请仔细阅读以下操作指南后再行使用。**
 * **镜像作者[VergilGao](https://github.com/VergilGao) [yoshiko2](https://github.com/yoshiko2)对使用此镜像导致的文件丢失、损坏均不负责。**
+* **6.2.1版本有功能性BUG，已被上游作者废置，请酌情使用**
 
 ## 更新日志
 
