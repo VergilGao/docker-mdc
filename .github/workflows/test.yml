@@ -50,6 +50,11 @@ jobs:
           -e UID=1024 \
           -e GID=1024 \
           -v ${PWD}/test:/data \
+          vergilgao/mdc:test || true
+        docker run \
+          -e UID=1024 \
+          -e GID=1024 \
+          -v ${PWD}/test:/data \
           vergilgao/mdc:test
         find . -name MIFD-046.mp4
         find . -name SVDVD-471.mp4
