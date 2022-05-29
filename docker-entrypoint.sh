@@ -6,9 +6,9 @@ config_file="/config/mdc.ini"
 echo "---Setup Timezone to ${TZ}---"
 echo "${TZ}" > /etc/timezone
 echo "---Checking if UID: ${UID} matches user---"
-usermod -u ${UID} ${USER}
+usermod -o -u ${UID} ${USER}
 echo "---Checking if GID: ${GID} matches user---"
-groupmod -g ${GID} ${USER} > /dev/null 2>&1 ||:
+groupmod -o -g ${GID} ${USER} > /dev/null 2>&1 ||:
 usermod -g ${GID} ${USER}
 echo "---Setting umask to ${UMASK}---"
 umask ${UMASK}

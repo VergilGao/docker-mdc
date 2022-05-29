@@ -1,7 +1,7 @@
 FROM ghcr.io/vergilgao/mdc-buildimage:dev as build-stage
 
 ARG MDC_SOURCE_VERSION
-ENV MDC_SOURCE_VERSION=${MDC_SOURCE_VERSION:-6403fb0679facc41a39370e501e49b24fb19c2f8}
+ENV MDC_SOURCE_VERSION=${MDC_SOURCE_VERSION:-a6aaca984f4f52e187d0f4c68424bb18a4895cb2}
 
 RUN mkdir -p /tmp/mdc && cd /tmp/mdc && \
     # get mdc source code
