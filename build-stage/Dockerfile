@@ -1,4 +1,4 @@
-FROM python:3.9-alpine3.15
+FROM python:3.9-alpine
 
 LABEL maintainer="VergilGao"
 LABEL org.opencontainers.image.source="https://github.com/VergilGao/docker-mdc"
@@ -27,7 +27,7 @@ RUN apk --update --no-cache add \
     pip install --upgrade pip
 
 ARG PYINSTALLER_SOURCE_VERISON
-ENV PYINSTALLER_SOURCE_VERISON=${PYINSTALLER_SOURCE_VERISON:-4b9fd01d7dc5a0aae3ba7c100437547915464f0e}
+ENV PYINSTALLER_SOURCE_VERISON=${PYINSTALLER_SOURCE_VERISON:-fbf7948be85177dd44b41217e9f039e1d176de6b}
 
 # build bootloader for alpine
 RUN mkdir -p /tmp/pyinstaller && \
@@ -41,7 +41,7 @@ ADD /root/ /pyinstaller/
 RUN chmod a+x /pyinstaller/*
 
 ARG MDC_REQUIREMENTS_SOURCE_VERSION
-ENV MDC_REQUIREMENTS_SOURCE_VERSION=${MDC_REQUIREMENTS_SOURCE_VERSION:-c319d78888fec507cdc8aa468d96f37bb06e569b}
+ENV MDC_REQUIREMENTS_SOURCE_VERSION=${MDC_REQUIREMENTS_SOURCE_VERSION:-cff10438dc8301a56f428281f7a644fa764878db}
 
 # install requirements
 RUN cd /tmp && \
