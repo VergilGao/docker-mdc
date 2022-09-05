@@ -1,6 +1,6 @@
 # Movie Data Capture - Docker
 
-[github](https://github.com/VergilGao/docker-mdc) [![GitHub stars](https://img.shields.io/github/stars/VergilGao/docker-mdc)](https://github.com/VergilGao/docker-mdc/stargazers) | [dockerhub](https://hub.docker.com/repository/docker/vergilgao/mdc)
+[github](https://github.com/VergilGao/docker-mdc) [![GitHub stars](https://img.shields.io/github/stars/VergilGao/docker-mdc)](https://github.com/VergilGao/docker-mdc/stargazers) | [dockerhub](https://hub.docker.com/r/vergilgao/mdc)
 
 ![publish](https://github.com/VergilGao/docker-mdc/workflows/publish/badge.svg) [![GitHub license](https://img.shields.io/github/license/VergilGao/docker-mdc)](https://github.com/VergilGao/docker-mdc/blob/master/LICENSE)
 
