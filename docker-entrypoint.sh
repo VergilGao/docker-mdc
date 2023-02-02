@@ -30,4 +30,4 @@ fi
 
 echo "Starting..."
 cd /data
-gosu ${USER} /app/Movie_Data_Capture
+gosu ${USER} /app/Movie_Data_Capture "$@"
