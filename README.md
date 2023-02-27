@@ -132,8 +132,8 @@ docker run --rm -it \
   --name mdc_test \
   -v ${PWD}/test:/data \
   -v ${PWD}/config:/config \
-  -e PUID=1000
-  -e PGID=1000
+  -e UID=1000 \
+  -e GID=1000 \
   vergilgao/mdc:latest
 ```
 
