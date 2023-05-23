@@ -2,7 +2,7 @@
 
 [github](https://github.com/VergilGao/docker-mdc) [![GitHub stars](https://img.shields.io/github/stars/VergilGao/docker-mdc)](https://github.com/VergilGao/docker-mdc/stargazers) | [dockerhub](https://hub.docker.com/r/vergilgao/mdc)
 
-![publish](https://github.com/VergilGao/docker-mdc/workflows/publish/badge.svg) [![GitHub license](https://img.shields.io/github/license/VergilGao/docker-mdc)](https://github.com/VergilGao/docker-mdc/blob/master/LICENSE)
+![release](https://github.com/VergilGao/docker-mdc/workflows/release/badge.svg) [![GitHub license](https://img.shields.io/github/license/VergilGao/docker-mdc)](https://github.com/VergilGao/docker-mdc/blob/master/LICENSE)
 
 **数据无价，请谨慎操作！**
 
