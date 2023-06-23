@@ -36,12 +36,25 @@ jobs:
         dd if=/dev/zero of="./test/SVDVD-471.mp4.mp4" bs=250MB count=1
         sudo chown -R 99:100 test
         ls -al test
+    
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v1
+    
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
 
     - name: Build the test image
       run: |
-        docker build -t vergilgao/mdc:test \
+        docker buildx create \
+          --name testbuilder \
+          --driver docker-container \
+          --bootstrap \
+          --use
+        docker buildx build \
+          --platform=linux/amd64,linux/arm64 \
           --build-arg BUILD_DATE=$(date +"%Y-%m-%d") \
-          .  
+          -t vergilgao/mdc:test \
+          . 
 
     - name: Run the Test
       if: success()
