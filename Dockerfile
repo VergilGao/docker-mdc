@@ -2,7 +2,7 @@ ARG DLIB_DIR=/tmp/dlib
 
 FROM python:3.10-slim-bullseye AS dlib-bin-builder-amd64
 ARG DLIB_DIR
-RUN mkdir -p ${DLIB_DIR}
+RUN mkdir -p ${DLIB_DIR}/dist
 
 FROM python:3.10-slim-bullseye AS dlib-bin-builder-arm64
 # https://github.com/ageitgey/face_recognition/blob/master/Dockerfile
