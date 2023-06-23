@@ -34,8 +34,7 @@ jobs:
         mkdir data data/amd64 data/arm64
         dd if=/dev/zero of="./data/amd64/MIFD-046.mp4" bs=250MB count=1
         dd if=/dev/zero of="./data/arm64/SVDVD-471.mp4" bs=250MB count=1
-        sudo chown -R 99:100 test
-        ls -al test
+        sudo chown -R 99:100 data
     
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v1
