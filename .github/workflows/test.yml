@@ -37,10 +37,10 @@ jobs:
         sudo chown -R 99:100 data
     
     - name: Set up QEMU
-      uses: docker/setup-qemu-action@v1
+      uses: docker/setup-qemu-action@v2
     
     - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v1
+      uses: docker/setup-buildx-action@v2
 
     - name: Build the test image
       run: |
@@ -60,7 +60,7 @@ jobs:
       run: |
         docker run \
           --rm \
-          --platform linux/amd64
+          --platform linux/amd64 \
           --name=mdc_test \
           -e UID=1024 \
           -e GID=1024 \
@@ -83,7 +83,7 @@ jobs:
       run: |
         docker run \
           --rm \
-          --platform linux/arm64
+          --platform linux/arm64 \
           --name=mdc_test \
           -e UID=1024 \
           -e GID=1024 \
