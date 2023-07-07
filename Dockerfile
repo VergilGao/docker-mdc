@@ -1,3 +1,56 @@
+ARG DLIB_DIR=/tmp/dlib
+ARG DLIB_WHL_DIR=${DLIB_DIR}/dist
+
+FROM python:3.10-slim-bullseye AS dlib-bin-builder-amd64
+ARG DLIB_WHL_DIR
+RUN mkdir -p ${DLIB_WHL_DIR}
+
+FROM python:3.10-slim-bullseye AS dlib-bin-builder-arm64
+# https://github.com/ageitgey/face_recognition/blob/master/Dockerfile
+RUN apt-get -y update
+RUN apt-get install -y --fix-missing \
+    build-essential \
+    cmake \
+    gfortran \
+    git \
+    wget \
+    curl \
+    graphicsmagick \
+    libgraphicsmagick1-dev \
+    libatlas-base-dev \
+    libavcodec-dev \
+    libavformat-dev \
+    libgtk2.0-dev \
+    libjpeg-dev \
+    liblapack-dev \
+    libswscale-dev \
+    pkg-config \
+    python3-dev \
+    python3-numpy \
+    software-properties-common \
+    zip \
+    && apt-get clean && rm -rf /tmp/* /var/tmp/*
+
+ARG DLIB_VERSION=v19.24.2
+ARG DLIB_DIR
+
+# dlib-bin repotory dlib-wheels steps: https://github.com/alesanfra/dlib-wheels/blob/master/.github/workflows/build.yaml
+RUN mkdir -p ${DLIB_DIR} && \
+    git clone -b "${DLIB_VERSION}" --single-branch https://github.com/davisking/dlib.git ${DLIB_DIR} && \
+    cd ${DLIB_DIR} && \
+    # change dlib python module desc
+    sed -i'' -e "s/name='dlib'/name='dlib-bin'/" setup.py && \
+    sed -i'' -e "s/version=read_version_from_cmakelists('dlib\/CMakeLists.txt')/version='$DLIB_VERSION'/" setup.py && \
+    sed -i'' -e "s/url='https:\/\/github\.com\/davisking\/dlib'/url='https:\/\/github\.com\/navyd\/docker-mdc'/" setup.py && \
+    sed -i'' -e "s/_cmake_extra_options = \[\]/_cmake_extra_options = \['-DDLIB_NO_GUI_SUPPORT=ON'\]/" setup.py && \
+    # build dlib: https://github.com/davisking/dlib#compiling-dlib-python-api
+    pip install build && \
+    python -m build --wheel && \
+    # check
+    pip install ./dist/*.whl
+
+FROM dlib-bin-builder-${TARGETARCH} AS dlib-bin-builder
+
 FROM python:3.10-slim-bullseye as build-stage
 
 RUN \
@@ -13,6 +66,9 @@ RUN \
 ARG MDC_SOURCE_VERSION
 ENV MDC_SOURCE_VERSION=${MDC_SOURCE_VERSION:-0e7f7f497e49ae9c2dd776357892a1f1cd6d6068}
 
+ARG DLIB_WHL_DIR
+COPY --from=dlib-bin-builder $DLIB_WHL_DIR $DLIB_WHL_DIR
+
 RUN mkdir -p /tmp/mdc && cd /tmp/mdc \
     # get mdc source code
     && wget -O- https://github.com/yoshiko2/Movie_Data_Capture/archive/$MDC_SOURCE_VERSION.tar.gz | tar xz -C /tmp/mdc --strip-components 1 \
@@ -20,6 +76,7 @@ RUN mkdir -p /tmp/mdc && cd /tmp/mdc \
     && pip install --upgrade \
         pip \
         pyinstaller \
+    && if [ -n "$(ls -A $DLIB_WHL_DIR)" ]; then pip install $DLIB_WHL_DIR/*.whl; fi \
     && pip install -r requirements.txt \
     && pip install face_recognition --no-deps \
     && pyinstaller \

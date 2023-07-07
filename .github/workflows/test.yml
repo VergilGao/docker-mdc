@@ -31,37 +31,72 @@ jobs:
       run: |
         sudo groupadd -g 1024 mdc
         sudo useradd -u 1024 mdc -g mdc
-        mkdir test
-        dd if=/dev/zero of="./test/MIFD-046.mp4" bs=250MB count=1
-        dd if=/dev/zero of="./test/SVDVD-471.mp4.mp4" bs=250MB count=1
-        sudo chown -R 99:100 test
-        ls -al test
+        mkdir data data/amd64 data/arm64
+        dd if=/dev/zero of="./data/amd64/MIFD-046.mp4" bs=250MB count=1
+        dd if=/dev/zero of="./data/arm64/SVDVD-471.mp4" bs=250MB count=1
+        sudo chown -R 99:100 data
+    
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v2
+    
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
 
     - name: Build the test image
       run: |
-        docker build -t vergilgao/mdc:test \
+        docker buildx create \
+          --name testbuilder \
+          --driver docker-container \
+          --bootstrap \
+          --use
+        docker buildx build \
+          --platform=linux/amd64,linux/arm64 \
           --build-arg BUILD_DATE=$(date +"%Y-%m-%d") \
-          .  
+          -t vergilgao/mdc:test \
+          . 
 
-    - name: Run the Test
+    - name: Run amd64 test
       if: success()
       run: |
         docker run \
           --rm \
+          --platform linux/amd64 \
           --name=mdc_test \
           -e UID=1024 \
           -e GID=1024 \
-          -v ${PWD}/config:/config \
-          -v ${PWD}/test:/data \
+          -v ${PWD}/config/amd64:/config \
+          -v ${PWD}/data/amd64:/data \
           vergilgao/mdc:test || true
         docker run \
           --rm \
+          --platform linux/amd64
           --name=mdc_test \
           -e UID=1024 \
           -e GID=1024 \
-          -v ${PWD}/config:/config \
-          -v ${PWD}/test:/data \
+          -v ${PWD}/config/amd64:/config \
+          -v ${PWD}/data/amd64:/data \
           vergilgao/mdc:test
-        find . -name MIFD-046.mp4
-        find . -name SVDVD-471.mp4
-        ls -al test
+        ls -al data/amd64/*/
+
+    - name: Run arm64 test
+      if: success()
+      run: |
+        docker run \
+          --rm \
+          --platform linux/arm64 \
+          --name=mdc_test \
+          -e UID=1024 \
+          -e GID=1024 \
+          -v ${PWD}/config/arm64:/config \
+          -v ${PWD}/data/arm64:/data \
+          vergilgao/mdc:test || true
+        docker run \
+          --rm \
+          --platform linux/arm64
+          --name=mdc_test \
+          -e UID=1024 \
+          -e GID=1024 \
+          -v ${PWD}/config/arm64:/config \
+          -v ${PWD}/data/arm64:/data \
+          vergilgao/mdc:test
+        ls -al data/arm64/*/
